@@ -21,6 +21,9 @@ from pathlib import Path
 
 import typer
 
+from src.config import load_config
+from src.data import fetch_era5
+
 app = typer.Typer(
     add_completion=False,
     help="Pipeline for SPb meteorological propagation climatology.",
@@ -44,7 +47,7 @@ def fetch(config: Path = DEFAULT_CONFIG) -> None:
         See src/data/__init__.py for the dataset contract — what dimensions,
         coordinates, and variables are guaranteed for downstream steps.
     """
-    raise NotImplementedError("Step 1: see src/data/")
+    fetch_era5(load_config(config))
 
 
 @app.command()
