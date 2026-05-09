@@ -1,0 +1,131 @@
+# noise-meteo-spb default configuration
+# Saint Petersburg metropolitan area, 2014–2024.
+#
+# Every numerical parameter that affects the science lives here. Code reads
+# this file via src/config.py; do not hardcode values in modules.
+
+# ──── Spatial domain ──────────────────────────────────────────────────────
+domain:
+  name: "spb_metro"
+  lat_min: 59.5
+  lat_max: 60.5
+  lon_min: 29.5
+  lon_max: 31.0
+  # ERA5 native resolution is 0.25°. SPb domain at 0.25° is roughly 4×6=24 cells.
+  # ERA5-Land at 0.1° gives ~60 cells. For the first iteration we use ERA5.
+
+# ──── Time window ─────────────────────────────────────────────────────────
+time:
+  start: "2014-01-01T00:00:00"
+  end:   "2024-12-31T23:00:00"
+  timezone_local: "Europe/Moscow"   # UTC+3 year-round, no DST in Russia
+  # ~96,000 hourly samples per cell. Storage is small enough at this domain
+  # to keep everything in memory comfortably.
+
+# ──── ERA5 variables ──────────────────────────────────────────────────────
+era5:
+  source: "arco"   # one of: "arco" (Google Cloud Zarr), "cds" (CDS API)
+  single_levels:
+    - "10m_u_component_of_wind"      # 10u
+    - "10m_v_component_of_wind"      # 10v
+    - "2m_temperature"                # 2t
+    - "2m_dewpoint_temperature"       # 2d
+    - "surface_pressure"              # sp
+    - "total_cloud_cover"             # tcc
+    - "boundary_layer_height"         # blh
+    - "total_precipitation"           # tp
+  pressure_levels:
+    # Used only for the upper-wind reference in Richardson computation.
+    # ERA5 has 1000, 975, 950, 925, 900 hPa available; 925 hPa is ~750 m AGL,
+    # 1000 hPa is ~110 m AGL at standard surface pressure. We use 1000 hPa
+    # as the closest approximation to a "100 m" reference; this is one of
+    # the methodological choices flagged for sensitivity analysis.
+    - 1000
+  pressure_level_variables:
+    - "u_component_of_wind"
+    - "v_component_of_wind"
+    - "temperature"
+
+# ──── Sector binning ──────────────────────────────────────────────────────
+sectors:
+  count: 18
+  width_deg: 20
+  # Convention: sector k spans [(k-0.5)*20°, (k+0.5)*20°), centered at k*20°.
+  # Sector 0 is centered on north (0°) and represents propagation toward N,
+  # i.e., wind component toward N (= negative v) is favorable for sector 0.
+
+# ──── Seasonal binning ────────────────────────────────────────────────────
+seasons:
+  DJF: [12, 1, 2]
+  MAM: [3, 4, 5]
+  JJA: [6, 7, 8]
+  SON: [9, 10, 11]
+
+# ──── Lden time-of-day periods ────────────────────────────────────────────
+# Hours are local time (timezone_local above).
+periods:
+  day:
+    start_hour: 7
+    end_hour: 19    # exclusive: 07:00 ≤ h < 19:00
+  evening:
+    start_hour: 19
+    end_hour: 23
+  night:
+    start_hour: 23
+    end_hour: 7     # wraps midnight: h ≥ 23 OR h < 7
+
+# ──── Stability classification ────────────────────────────────────────────
+stability:
+  primary: "richardson"   # one of: "richardson", "pasquill"
+  cross_check: "pasquill"
+
+  richardson:
+    # Bulk Ri = (g/T̄) · ΔT·Δz / (ΔU)²
+    # Lower height: 2 m (use 2t and 10m wind)
+    # Upper height: ~110 m AGL (1000 hPa pressure level wind and temperature)
+    upper_pressure_level_hpa: 1000
+    # Class boundaries (mapping bulk Ri to A–G classes following Stull 1988):
+    classes:
+      - {name: "A", ri_max: -0.86}    # extremely unstable
+      - {name: "B", ri_max: -0.37}    # moderately unstable
+      - {name: "C", ri_max: -0.10}    # slightly unstable
+      - {name: "D", ri_max:  0.10}    # neutral
+      - {name: "E", ri_max:  0.20}    # slightly stable
+      - {name: "F", ri_max:  0.40}    # moderately stable
+      - {name: "G", ri_max:  999.0}   # extremely stable
+
+  pasquill:
+    # Standard Pasquill-Gifford table from wind speed × insolation × cloud cover.
+    # Uses solar zenith angle for insolation level.
+    # Implementation reference: Stull (1988) Table 9.4.
+
+# ──── Favorable propagation criterion ─────────────────────────────────────
+# Per ISO 9613-2 / ГОСТ 31295.2 logic. A sector-hour is favorable if EITHER:
+#   (a) wind component along sector ≥ wind_threshold_ms, OR
+#   (b) atmospheric stability is in stable_classes.
+favorable:
+  wind_threshold_ms: 2.0   # CNOSSOS practice; sweep [1, 2, 3] for sensitivity
+  stable_classes: ["E", "F", "G"]   # slightly to extremely stable
+  # Note: stability flag applies omnidirectionally — when stable, ALL 18 sectors
+  # are flagged favorable for that hour, irrespective of wind.
+
+# ──── Output ──────────────────────────────────────────────────────────────
+output:
+  processed_path: "data/processed/p_favorable_spb.nc"
+  # Variables written: p_favorable (float32), n_samples (int32)
+  # Dimensions: cell (~50), sector (18), season (4), period (3)
+  # Total size: under 100 KB.
+
+  metadata:
+    title: "Climatology of favorable propagation conditions, Saint Petersburg, 2014-2024"
+    institution: "RGGMU"
+    references: "Hersbach et al. 2020; ISO 9613-2:2024; GOST 31295.2-2005"
+    conventions: "CF-1.10"
+
+# ──── Validation against ground stations ──────────────────────────────────
+validation:
+  stations:
+    pulkovo:    {lat: 59.79, lon: 30.27, wmo_id: "26063"}
+    voeykovo:   {lat: 59.95, lon: 30.71, wmo_id: "26069"}
+    kronstadt:  {lat: 59.99, lon: 29.78, wmo_id: "26060"}
+  # Validation is optional and currently exploratory — see notebooks/.

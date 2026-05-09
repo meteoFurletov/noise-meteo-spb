@@ -1,0 +1,71 @@
+[project]
+name = "noise-meteo-spb"
+version = "0.1.0"
+description = "Climatology of meteorological propagation conditions for traffic noise calculation in Saint Petersburg"
+requires-python = ">=3.11"
+authors = [
+    { name = "TBD" },
+]
+readme = "README.md"
+
+dependencies = [
+    # Core scientific stack
+    "numpy>=1.26",
+    "scipy>=1.11",
+    "pandas>=2.1",
+
+    # Atmospheric data handling
+    "xarray>=2024.1",
+    "netcdf4>=1.6",
+    "zarr>=2.16",
+
+    # ERA5 access — pick one or both depending on access pattern
+    "cdsapi>=0.7",       # for direct CDS API queries
+    "gcsfs>=2024.2",     # for ARCO-ERA5 / WeatherBench-X via Google Cloud Storage
+
+    # Stability and atmospheric science helpers
+    "metpy>=1.6",        # provides solar zenith, dewpoint→RH, atmospheric utilities
+
+    # Geospatial
+    "pyproj>=3.6",       # coordinate transformations
+    "geopandas>=0.14",   # for downstream GIS work; minimal use here
+
+    # Visualization
+    "matplotlib>=3.8",
+    "cartopy>=0.22",     # for the SPb-domain maps in step 5
+
+    # CLI and config
+    "typer>=0.9",
+    "pyyaml>=6.0",
+
+    # Logging
+    "structlog>=24.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4",
+    "pytest-cov>=4.1",
+    "ruff>=0.3",
+    "ipykernel>=6.28",
+    "jupyterlab>=4.0",
+]
+
+[project.scripts]
+noise-meteo = "src.run:app"
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --tb=short"

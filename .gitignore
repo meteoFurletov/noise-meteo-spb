@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Environments
+.venv/
+venv/
+.env
+.env.local
+
+# Editors
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Data
+data/raw/
+data/interim/
+# data/processed/ is committed — it's small and is the deliverable.
+# data/external/ is committed — small static reference data.
+
+# Generated figures (regenerable)
+docs/figures/*.pdf
+docs/figures/*.png
+!docs/figures/.gitkeep
+
+# Credentials
+.cdsapirc
+*.pem
+*.key
