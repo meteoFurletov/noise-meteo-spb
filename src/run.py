@@ -22,7 +22,8 @@ from pathlib import Path
 import typer
 
 from src.config import load_config
-from src.data import fetch_era5
+from src.data import fetch_era5, open_cached
+from src.stability import agreement_diagnostics, classify_stability, plot_stability_agreement
 
 app = typer.Typer(
     add_completion=False,
@@ -66,7 +67,17 @@ def stability(config: Path = DEFAULT_CONFIG) -> None:
         a paper result, not just a sanity check.
         See src/stability/__init__.py for class definitions and methods.
     """
-    raise NotImplementedError("Step 2: see src/stability/")
+    loaded_config = load_config(config)
+    era5 = open_cached()
+    classified = classify_stability(era5, loaded_config)
+    plot_stability_agreement(classified, Path("docs/figures/stability_agreement.pdf"))
+
+    diagnostics = agreement_diagnostics(classified)
+    typer.echo(
+        "Stability classification complete: "
+        f"{diagnostics['agreement_fraction']:.1%} agreement over "
+        f"{diagnostics['n_valid']:,} valid samples."
+    )
 
 
 @app.command()

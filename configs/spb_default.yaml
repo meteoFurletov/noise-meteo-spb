@@ -84,6 +84,9 @@ stability:
     # Lower height: 2 m (use 2t and 10m wind)
     # Upper height: ~110 m AGL (1000 hPa pressure level wind and temperature)
     upper_pressure_level_hpa: 1000
+    gravity_ms2: 9.81
+    upper_height_agl_m: 110.0
+    lower_temperature_height_agl_m: 2.0
     # Class boundaries (mapping bulk Ri to A–G classes following Stull 1988):
     classes:
       - {name: "A", ri_max: -0.86}    # extremely unstable
@@ -98,6 +101,14 @@ stability:
     # Standard Pasquill-Gifford table from wind speed × insolation × cloud cover.
     # Uses solar zenith angle for insolation level.
     # Implementation reference: Stull (1988) Table 9.4.
+    solar_zenith_day_threshold_deg: 85.0
+    strong_insolation_zenith_max_deg: 60.0
+    moderate_insolation_zenith_max_deg: 75.0
+    day_cloud_downgrade_fraction: 0.50
+    day_overcast_fraction: 0.875
+    night_cloudy_fraction: 0.50
+    very_calm_wind_ms: 1.0
+    wind_speed_bins_ms: [2.0, 3.0, 5.0, 6.0]
 
 # ──── Favorable propagation criterion ─────────────────────────────────────
 # Per ISO 9613-2 / ГОСТ 31295.2 logic. A sector-hour is favorable if EITHER:
