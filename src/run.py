@@ -10,6 +10,7 @@ Usage:
     python -m src.run fetch                # step 1: fetch ERA5
     python -m src.run stability            # step 2: classify stability
     python -m src.run favorable            # step 3: per-sector favorable flag
+    python -m src.run soundings            # validation: Voeikovo radiosondes
     python -m src.run aggregate            # step 4: build the lookup table
     python -m src.run viz                  # step 5: produce paper figures
 
@@ -20,9 +21,17 @@ The default is configs/spb_default.yaml.
 from pathlib import Path
 
 import typer
+import xarray as xr
 
 from src.config import load_config
+from src.aggregate import aggregate_to_climatology, write_netcdf
 from src.data import fetch_era5, open_cached
+from src.data.soundings import (
+    assemble_soundings,
+    compute_sounding_richardson,
+    write_soundings_dataset,
+)
+from src.favorable import compute_favorable
 from src.stability import agreement_diagnostics, classify_stability, plot_stability_agreement
 
 app = typer.Typer(
@@ -96,7 +105,53 @@ def favorable(config: Path = DEFAULT_CONFIG) -> None:
         threshold is 2.0 m/s; configurable for sensitivity analysis.
         See src/favorable/__init__.py for the criterion definition.
     """
-    raise NotImplementedError("Step 3: see src/favorable/")
+    loaded_config = load_config(config)
+    era5 = open_cached()
+    stability_ds = xr.open_zarr("data/interim/stability.zarr", consolidated=False)
+    out = compute_favorable(era5, stability_ds, loaded_config)
+
+    typer.echo(
+        "Favorable-condition classification complete: "
+        f"{', '.join(out.data_vars)} written to data/interim/favorable.zarr."
+    )
+
+
+@app.command()
+def soundings(config: Path = DEFAULT_CONFIG) -> None:
+    """Validation. Fetch Voeikovo soundings and compute sounding bulk Ri.
+
+    Reads:
+        - configs/<config>.yaml (soundings station/time settings)
+        - University of Wyoming Atmospheric Soundings archive
+
+    Writes:
+        - data/raw/soundings/YYYY/MM/YYYYMMDD_HH.csv
+        - data/external/station_id_cutover.json
+        - data/interim/soundings_spb.zarr
+
+    Notes:
+        This is a validation side path for Step 3. It intentionally does not
+        advance the main pipeline to aggregation.
+    """
+    loaded_config = load_config(config)
+    sounding_config = loaded_config["soundings"]
+    time_config = sounding_config["time"]
+
+    ds = assemble_soundings(
+        time_config["start"],
+        time_config["end"],
+        time_config.get("sample_strategy", "seasonal"),
+    )
+    out = compute_sounding_richardson(ds)
+    write_soundings_dataset(out)
+
+    valid = int(out["valid"].sum().item())
+    total = int(out.sizes["time"])
+    typer.echo(
+        "Sounding validation cache complete: "
+        f"{valid:,}/{total:,} launches valid; ri_sounding written to "
+        "data/interim/soundings_spb.zarr."
+    )
 
 
 @app.command()
@@ -110,13 +165,24 @@ def aggregate(config: Path = DEFAULT_CONFIG) -> None:
         - data/processed/p_favorable_spb.nc (THE deliverable)
 
     Notes:
-        Output dimensions: (cell, sector, season, period). Two variables:
-        p_favorable (fraction) and n_samples (count). Sample count is
-        carried alongside p_favorable so downstream consumers can flag
-        statistically thin estimates.
+        Output dimensions: (cell, sector, season, period) for directional
+        probabilities and (cell, season, period) for thermal probability and
+        sample count. Sample count is carried alongside p_favorable so
+        downstream consumers can flag statistically thin estimates.
         See src/aggregate/__init__.py for the binning specification.
     """
-    raise NotImplementedError("Step 4: see src/aggregate/")
+    loaded_config = load_config(config)
+    favorable_ds = xr.open_zarr("data/interim/favorable.zarr", consolidated=False)
+    out = aggregate_to_climatology(favorable_ds, loaded_config)
+
+    output_config = loaded_config.get("output", {})
+    output_path = Path(output_config.get("processed_path", "data/processed/p_favorable_spb.nc"))
+    write_netcdf(out, output_path, output_config.get("metadata", {}))
+
+    typer.echo(
+        "Climatological lookup table complete: "
+        f"{', '.join(out.data_vars)} written to {output_path}."
+    )
 
 
 @app.command()
@@ -127,16 +193,28 @@ def viz(config: Path = DEFAULT_CONFIG) -> None:
         - data/processed/p_favorable_spb.nc
 
     Writes:
-        - docs/figures/polar_p_favorable_<cell>.pdf (headline polar plot)
-        - docs/figures/map_p_favorable_<sector>_<season>.pdf (spatial maps)
-        - docs/figures/seasonal_cycle_p_favorable.pdf (annual cycle)
-        - docs/figures/sector_season_heatmap.pdf (overview matrix)
+        - docs/figures/fig1_two_component.pdf
+        - docs/figures/fig2_seasonal_thermal.pdf
+        - docs/figures/fig3_hero_kad.pdf
+        - docs/figures/fig4_validation.pdf
+        - docs/figures/fig5_pipeline.pdf
 
     Notes:
         Each figure corresponds to a specific reference in the paper draft.
         See src/viz/__init__.py for the figure list and what each shows.
     """
-    raise NotImplementedError("Step 5: see src/viz/")
+    from src.viz import generate_all_figures
+
+    loaded_config = load_config(config)
+    output_config = loaded_config.get("output", {})
+    climatology_path = Path(
+        output_config.get("processed_path", "data/processed/p_favorable_spb.nc")
+    )
+    climatology = xr.open_dataset(climatology_path)
+    output_dir = Path("docs/figures")
+    generate_all_figures(climatology, output_dir, loaded_config)
+
+    typer.echo(f"Publication figures written to {output_dir}.")
 
 
 @app.command()

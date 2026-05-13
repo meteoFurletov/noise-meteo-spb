@@ -120,6 +120,25 @@ favorable:
   # Note: stability flag applies omnidirectionally — when stable, ALL 18 sectors
   # are flagged favorable for that hour, irrespective of wind.
 
+# ──── Propagation case-study model ────────────────────────────────────────
+propagation:
+  delta_l_model: "distance_dependent_nmpb"
+  delta_l_A_db: 3.0
+  delta_l_B_db: 6.0
+  delta_l_d0_m: 50.0
+  delta_l_max_db: 15.0
+
+# ──── Radiosonde validation ───────────────────────────────────────────────
+soundings:
+  station:
+    coord_lat: 59.952
+    coord_lon: 30.707
+    ids_known: [26063, 26075]
+  time:
+    start: "2014-01-01"
+    end: "2024-12-31"
+    sample_strategy: "all"
+
 # ──── Output ──────────────────────────────────────────────────────────────
 output:
   processed_path: "data/processed/p_favorable_spb.nc"

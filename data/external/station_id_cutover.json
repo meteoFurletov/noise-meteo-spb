@@ -1,0 +1,18 @@
+{
+  "cutover_date": "2018-10-31",
+  "old_station_id": 26063,
+  "new_station_id": 26075,
+  "rule": "date < cutover uses 26063; date >= cutover uses 26075",
+  "observations": [
+    {
+      "date": "2018-10-31",
+      "station_id": 26063,
+      "valid": false
+    },
+    {
+      "date": "2018-10-31",
+      "station_id": 26075,
+      "valid": true
+    }
+  ]
+}
