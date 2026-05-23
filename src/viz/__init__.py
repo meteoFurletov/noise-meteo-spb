@@ -14,7 +14,7 @@ from pyproj import Transformer
 
 SEASON_ORDER = ("DJF", "MAM", "JJA", "SON")
 PERIOD_ORDER = ("day", "evening", "night")
-PERIOD_LABELS_RU = {"day": "день", "evening": "вечер", "night": "ночь"}
+PERIOD_LABELS_RU = {"day": "День", "evening": "Вечер", "night": "Ночь"}
 SEASON_LABELS_RU = {"DJF": "зима", "MAM": "весна", "JJA": "лето", "SON": "осень"}
 COMPASS_LABELS = ("С", "СВ", "В", "ЮВ", "Ю", "ЮЗ", "З", "СЗ")
 VALIDATION_PALETTE = {
@@ -33,15 +33,15 @@ def plotting_config() -> dict:
     """Return matplotlib rcParams for publication-quality figures."""
     return {
         "font.family": "serif",
-        "font.serif": ["Times New Roman", "Times", "Nimbus Roman", "DejaVu Serif"],
+        "font.serif": ["DejaVu Serif", "Times New Roman", "serif"],
         "mathtext.fontset": "stix",
-        "font.size": 9,
-        "axes.titlesize": 10,
-        "axes.labelsize": 9,
-        "xtick.labelsize": 8,
-        "ytick.labelsize": 8,
-        "legend.fontsize": 8,
-        "figure.dpi": 150,
+        "font.size": 10,
+        "axes.labelsize": 11,
+        "axes.titlesize": 12,
+        "legend.fontsize": 10,
+        "xtick.labelsize": 9,
+        "ytick.labelsize": 9,
+        "figure.dpi": 100,
         "savefig.dpi": 300,
         "savefig.bbox": "tight",
         "pdf.fonttype": 42,
@@ -87,14 +87,14 @@ def fig_two_component_favorable(
     panels = [
         ("(а) Ветровой компонент", wind, "#2b5c7a"),
         (f"(б) Термический компонент ({thermal_scalar:.2f})", thermal, "#6d6d6d"),
-        ("(в) Совмещённое условие", combined, "#2f6b4f"),
+        ("(в) Совокупный", combined, "#2f6b4f"),
     ]
 
     with plt.rc_context(plotting_config()):
         fig, axes = plt.subplots(
             1,
             3,
-            figsize=(7.6, 3.0),
+            figsize=(8.4, 3.35),
             subplot_kw={"projection": "polar"},
             constrained_layout=True,
         )
@@ -120,7 +120,8 @@ def fig_two_component_favorable(
 
         lat = float(climatology["cell_lat"].isel(cell=cell_index))
         lon = float(climatology["cell_lon"].isel(cell=cell_index))
-        fig.suptitle(f"Ячейка {cell_index}: {lat:.2f} с.ш., {lon:.2f} в.д.", y=1.05)
+        fig.suptitle(f"Ячейка {cell_index} ({lat:.1f}° с.ш., {lon:.1f}° в.д.)", y=1.04)
+        fig.supxlabel("Азимут, град (откуда дует ветер)", y=0.02)
         _save_figure(fig, output_path)
 
 
@@ -136,17 +137,22 @@ def fig_seasonal_thermal(climatology: xr.Dataset, output_path: Path) -> None:
     values = heatmap.values.astype(float)
 
     with plt.rc_context(plotting_config()):
-        fig, ax = plt.subplots(figsize=(5.25, 3.75), constrained_layout=True)
+        fig, ax = plt.subplots(figsize=(5.8, 4.2), constrained_layout=True)
         im = ax.imshow(values, cmap="viridis", vmin=0.10, vmax=0.85, aspect="auto")
-        cbar = fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04)
-        cbar.set_label("Средняя вероятность")
+        cbar = fig.colorbar(im, ax=ax, orientation="horizontal", fraction=0.08, pad=0.14)
+        cbar.set_label(
+            "p_favorable_thermal, доля часов\nс термически благоприятными условиями",
+            fontsize=9,
+        )
 
-        ax.set_xticks(np.arange(len(PERIOD_ORDER)), labels=[PERIOD_LABELS_RU[p] for p in PERIOD_ORDER])
+        ax.set_xticks(
+            np.arange(len(PERIOD_ORDER)), labels=[PERIOD_LABELS_RU[p] for p in PERIOD_ORDER]
+        )
         ax.set_yticks(
             np.arange(len(SEASON_ORDER)),
-            labels=[f"{SEASON_LABELS_RU[s]} ({s})" for s in SEASON_ORDER],
+            labels=[f"{s} ({SEASON_LABELS_RU[s]})" for s in SEASON_ORDER],
         )
-        ax.set_xlabel("Период Lden")
+        ax.set_xlabel("Период суток")
         ax.set_ylabel("Сезон")
         ax.set_title("Термически благоприятные условия")
 
@@ -435,9 +441,15 @@ def fig_validation(
     ri_era5 = bounded["ri_era5"].values[valid]
 
     with plt.rc_context(plotting_config()):
-        fig, axes = plt.subplots(1, 3, figsize=(8.3, 3.0), constrained_layout=True)
+        fig, axes = plt.subplots(1, 3, figsize=(10.8, 3.6), constrained_layout=True)
         _plot_validation_confusion(axes[0], full_stats)
-        _plot_validation_density(axes[1], ri_sounding, ri_era5, bounded_stats)
+        _plot_validation_scatter(
+            axes[1],
+            ri_sounding,
+            ri_era5,
+            bounded["time"].values[valid],
+            bounded_stats,
+        )
         _plot_validation_bars(axes[2], full_stats)
         _save_figure(fig, output_path)
 
@@ -569,6 +581,19 @@ def generate_all_figures(
     fig_case_study_hero_kad(climatology, output_dir / "fig3_hero_kad.pdf", config)
     fig_validation(output_dir / "fig4_validation.pdf")
     fig_pipeline_schematic(output_dir / "fig5_pipeline.pdf")
+
+
+def generate_paper_png_figures(
+    climatology: xr.Dataset,
+    output_dir: Path,
+    config: dict[str, Any] | None = None,
+) -> None:
+    """Produce the Russian-labeled climatology-derived PNG paper figures."""
+    output_dir.mkdir(parents=True, exist_ok=True)
+    fig_two_component_favorable(climatology, output_dir / "fig1_two_component.png", 16)
+    fig_seasonal_thermal(climatology, output_dir / "fig2_seasonal_thermal.png")
+    fig_case_study_hero_kad(climatology, output_dir / "fig3_hero_kad.png", config)
+    fig_validation(output_dir / "fig4_validation.png")
 
 
 def _weighted_period_mean(da: xr.DataArray, weights: xr.DataArray) -> xr.DataArray:
@@ -830,57 +855,86 @@ def _annotate_case_asymmetry(ax: Any, result: dict[str, Any]) -> None:
     )
 
 
+def _format_count_ru(value: int) -> str:
+    return f"{int(value):,}".replace(",", " ")
+
+
 def _plot_validation_confusion(ax: Any, stats: dict[str, Any]) -> None:
     confusion = stats["confusion_matrix"]
     im = ax.imshow(confusion, cmap="Blues")
     cbar = ax.figure.colorbar(im, ax=ax, fraction=0.046, pad=0.04)
-    cbar.set_label("Число случаев")
-    labels = ["неуст.", "уст."]
-    ax.set_xticks([0, 1], labels=labels, rotation=20)
+    cbar.set_label("Количество парных\nнаблюдений", fontsize=9)
+    cbar.ax.tick_params(labelsize=8)
+    labels = ["Неустойчиво", "Устойчиво"]
+    ax.set_xticks([0, 1], labels=labels, rotation=25, ha="right")
     ax.set_yticks([0, 1], labels=labels)
     ax.set_xlabel("ERA5")
-    ax.set_ylabel("Радиозонд")
+    ax.set_ylabel("Зондирование")
     ax.set_title("(а) Классификация устойчивости")
     threshold = confusion.max() / 2.0
     for i in range(2):
         for j in range(2):
             color = "white" if confusion[i, j] > threshold else "black"
-            ax.text(j, i, f"{confusion[i, j]:,}", ha="center", va="center", color=color)
+            ax.text(
+                j,
+                i,
+                _format_count_ru(confusion[i, j]),
+                ha="center",
+                va="center",
+                color=color,
+            )
 
 
-def _plot_validation_density(
+def _plot_validation_scatter(
     ax: Any,
     ri_sounding: np.ndarray,
     ri_era5: np.ndarray,
+    times: np.ndarray,
     stats: dict[str, Any],
 ) -> None:
-    hb = ax.hexbin(
-        ri_sounding,
-        ri_era5,
-        gridsize=34,
-        extent=(-10, 10, -10, 10),
-        cmap="Blues",
-        mincnt=1,
-        linewidths=0,
-    )
-    cbar = ax.figure.colorbar(hb, ax=ax, fraction=0.046, pad=0.04)
-    cbar.set_label("Число пар")
+    import pandas as pd
+
+    months = pd.DatetimeIndex(times).month
+    seasons = np.asarray([_season_for_month(int(month)) for month in months])
+    for season in SEASON_ORDER:
+        mask = seasons == season
+        ax.scatter(
+            ri_sounding[mask],
+            ri_era5[mask],
+            s=9,
+            alpha=0.42,
+            edgecolors="none",
+            color=VALIDATION_PALETTE[season],
+            label=f"{season} ({SEASON_LABELS_RU[season]})",
+        )
     ax.plot([-10, 10], [-10, 10], color="0.25", lw=0.9)
     ax.set_xlim(-10, 10)
     ax.set_ylim(-10, 10)
     ax.set_aspect("equal", adjustable="box")
-    ax.set_xlabel("Ri радиозонд")
-    ax.set_ylabel("Ri ERA5")
-    ax.set_title("(б) Согласие Ri, |Ri| <= 10")
+    ax.set_xlabel("ri_b зондирование")
+    ax.set_ylabel("ri_b ERA5")
+    ax.set_title("(б) Согласие ri_b, |ri_b| <= 10")
     ax.text(
         0.04,
         0.96,
-        f"N={stats['n']:,}\nr={stats['pearson_r']:.2f}\nRMSE={stats['rmse']:.2f}",
+        f"N = {_format_count_ru(stats['n'])}\n"
+        f"Pearson = {stats['pearson_r']:.2f}\n"
+        f"RMSE = {stats['rmse']:.2f}",
         transform=ax.transAxes,
         ha="left",
         va="top",
         bbox={"facecolor": "white", "edgecolor": "0.75", "pad": 2.5},
         fontsize=8,
+    )
+    ax.legend(
+        frameon=True,
+        facecolor="white",
+        edgecolor="0.75",
+        loc="lower right",
+        fontsize=8,
+        markerscale=1.5,
+        handletextpad=0.2,
+        borderpad=0.3,
     )
 
 
@@ -888,18 +942,16 @@ def _plot_validation_bars(ax: Any, stats: dict[str, Any]) -> None:
     x = np.arange(len(SEASON_ORDER))
     width = 0.36
     hit_rates = [stats["seasonal"][season]["hit_rate"] for season in SEASON_ORDER]
-    false_alarm_rates = [
-        stats["seasonal"][season]["false_alarm_rate"] for season in SEASON_ORDER
-    ]
-    ax.bar(x - width / 2, hit_rates, width, label="Попадание", color="#2d8f68")
+    false_alarm_rates = [stats["seasonal"][season]["false_alarm_rate"] for season in SEASON_ORDER]
+    ax.bar(x - width / 2, hit_rates, width, label="Доля попадания", color="#2d8f68")
     ax.bar(
         x + width / 2,
         false_alarm_rates,
         width,
-        label="Ложная тревога",
+        label="Доля ложных тревог",
         color="#9c4f3f",
     )
-    ax.set_xticks(x, labels=SEASON_ORDER)
+    ax.set_xticks(x, labels=[f"{season}\n({SEASON_LABELS_RU[season]})" for season in SEASON_ORDER])
     ax.set_ylim(0, 1)
     ax.set_ylabel("Доля")
     ax.set_title("(в) Метрики по сезонам")
@@ -910,6 +962,7 @@ def _plot_validation_bars(ax: Any, stats: dict[str, Any]) -> None:
         ncol=2,
         handlelength=1.4,
         columnspacing=0.9,
+        fontsize=8,
     )
     for xpos, value in zip(x - width / 2, hit_rates, strict=True):
         ax.text(xpos, value + 0.025, f"{value:.0%}", ha="center", va="bottom", fontsize=7)
@@ -929,5 +982,8 @@ def _save_figure(fig: Any, output_path: Path) -> None:
     import matplotlib.pyplot as plt
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(output_path)
+    if output_path.suffix.lower() == ".png":
+        fig.savefig(output_path, pil_kwargs={"compress_level": 9, "optimize": True})
+    else:
+        fig.savefig(output_path)
     plt.close(fig)

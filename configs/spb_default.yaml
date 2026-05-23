@@ -46,6 +46,94 @@ era5:
     - "v_component_of_wind"
     - "temperature"
 
+# ──── ERA5 v2 CDS cache ──────────────────────────────────────────────────
+# Expanded variable set for bulk Richardson at fixed 100 m AGL,
+# Monin-Obukhov 1/L, Turner-variant Pasquill, and diagnostics.
+era5_v2:
+  time:
+    start: "2014-01-01"
+    end:   "2024-12-31"
+  area:
+    # CDS order: [North, West, South, East]
+    bbox: [60.5, 29.5, 59.5, 31.0]
+  datasets:
+    single_levels:
+      dataset_name: "reanalysis-era5-single-levels"
+      variables:
+        # Baseline (group "basic")
+        - "10m_u_component_of_wind"
+        - "10m_v_component_of_wind"
+        - "2m_temperature"
+        - "2m_dewpoint_temperature"
+        - "surface_pressure"
+        - "total_cloud_cover"
+        - "boundary_layer_height"
+        - "total_precipitation"
+        # For improved Ri (group "ri_upper")
+        - "100m_u_component_of_wind"
+        - "100m_v_component_of_wind"
+        - "skin_temperature"
+        # For Monin-Obukhov 1/L (group "mo")
+        # Source: ECMWF Confluence "ERA5: How to calculate Obukhov Length"
+        # NOTE: instantaneous variants, NOT the accumulated sshf/slhf
+        - "instantaneous_surface_sensible_heat_flux"
+        - "instantaneous_moisture_flux"
+        - "instantaneous_eastward_turbulent_surface_stress"
+        - "instantaneous_northward_turbulent_surface_stress"
+        - "friction_velocity"          # zust, verification-only
+        # For Turner-variant Pasquill (group "pasquill_turner")
+        - "surface_solar_radiation_downwards"
+        # Diagnostics (group "diagnostics")
+        - "minimum_2m_temperature_since_previous_post_processing"
+        - "maximum_2m_temperature_since_previous_post_processing"
+    pressure_levels:
+      dataset_name: "reanalysis-era5-pressure-levels"
+      pressure_levels: ["1000", "975", "950"]
+      variables:
+        - "u_component_of_wind"
+        - "v_component_of_wind"
+        - "temperature"
+        - "geopotential"
+    static:
+      dataset_name: "reanalysis-era5-single-levels"
+      # Fetched at a single date/time; same field every hour
+      reference_datetime: "2024-01-01T00:00:00"
+      variables:
+        - "geopotential"                              # orography
+        - "standard_deviation_of_filtered_subgrid_orography"
+    single_levels_timeseries:
+      dataset_name: "reanalysis-era5-single-levels-timeseries"
+      # Point time-series ARCO product; much faster for the variables it covers.
+      variables:
+        - "10m_u_component_of_wind"
+        - "10m_v_component_of_wind"
+        - "2m_temperature"
+        - "2m_dewpoint_temperature"
+        - "surface_pressure"
+        - "total_cloud_cover"
+        - "boundary_layer_height"
+        - "total_precipitation"
+        - "100m_u_component_of_wind"
+        - "100m_v_component_of_wind"
+        - "skin_temperature"
+        - "surface_solar_radiation_downwards"
+  request:
+    # CDS API request-size strategy
+    batch_strategy: "per_year"        # one request per (year, dataset)
+    format: "netcdf"
+    max_variables_per_request: 1     # fallback after CDS cost-limit rejection
+    max_concurrent_requests: 5       # keep several small CDS jobs in flight
+    timeseries_max_concurrent_requests: 1
+    timeseries_retry_sleep_seconds: 300
+    timeseries_max_attempts: 48
+    cds_retry_attempts: 6
+    cds_retry_sleep_seconds: 180
+    polite_sleep_seconds: 2.0         # between successful submissions
+    max_queue_wait_hours: 6           # log and skip if queue exceeds this
+  cache:
+    raw_dir:      "data/raw/era5_v2"
+    interim_zarr: "data/interim/era5_spb_v2.zarr"
+
 # ──── Sector binning ──────────────────────────────────────────────────────
 sectors:
   count: 18

@@ -19,6 +19,8 @@ The default is configs/spb_default.yaml.
 """
 
 from pathlib import Path
+import logging
+import time
 
 import typer
 import xarray as xr
@@ -26,6 +28,19 @@ import xarray as xr
 from src.config import load_config
 from src.aggregate import aggregate_to_climatology, write_netcdf
 from src.data import fetch_era5, open_cached
+from src.data.era5 import (
+    _load_v2_config,
+    assemble_zarr,
+    assemble_zarr_from_raw_cache,
+    describe_backfill_dry_run,
+    describe_dry_run,
+    describe_timeseries_dry_run,
+    enqueue_backfill_requests,
+    fetch_all,
+    fetch_pressure_then_missing_single_levels,
+    fetch_single_levels_timeseries_all,
+    verify_cache,
+)
 from src.data.soundings import (
     assemble_soundings,
     compute_sounding_richardson,
@@ -58,6 +73,237 @@ def fetch(config: Path = DEFAULT_CONFIG) -> None:
         coordinates, and variables are guaranteed for downstream steps.
     """
     fetch_era5(load_config(config))
+
+
+@app.command("era5_v2")
+def era5_v2(
+    config: Path = DEFAULT_CONFIG,
+    dry_run: bool = typer.Option(
+        False,
+        "--dry-run",
+        help="Print CDS requests without contacting CDS.",
+    ),
+    year: int | None = typer.Option(
+        None,
+        "--year",
+        help="Fetch a single year for debugging instead of the full configured range.",
+    ),
+) -> None:
+    """Step 1 v2. Fetch the expanded ERA5 CDS cache.
+
+    This is a separate command, rather than a --version flag on fetch, so the
+    legacy ARCO-backed v1 cache remains available for old notebooks while the
+    CDS-backed v2 cache can be generated explicitly.
+    """
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
+    cfg = _load_v2_config(config)
+    selected_years = [year] if year is not None else None
+
+    if dry_run:
+        for line in describe_dry_run(cfg, selected_years):
+            typer.echo(line)
+        return
+
+    started = time.monotonic()
+    downloaded_paths = fetch_all(cfg, selected_years)
+    fetch_elapsed = time.monotonic() - started
+
+    zarr_path = assemble_zarr(downloaded_paths, cfg)
+    processing_elapsed = time.monotonic() - started - fetch_elapsed
+    checks = verify_cache(zarr_path, cfg)
+    total_elapsed = time.monotonic() - started
+    zarr_size_mb = _path_size_bytes(zarr_path) / 1024**2
+
+    typer.echo(
+        "ERA5 v2 status: "
+        f"elapsed {total_elapsed / 60:.1f} min "
+        f"(CDS fetch/queue {fetch_elapsed / 60:.1f} min, processing "
+        f"{processing_elapsed / 60:.1f} min). "
+        f"Final zarr size is {zarr_size_mb:.1f} MB "
+        f"({'near' if 140 <= zarr_size_mb <= 230 else 'outside'} the expected ~180 MB range)."
+    )
+    typer.echo(
+        "Verification: "
+        f"z(1000 hPa) < z_surface fraction = "
+        f"{checks['z1000_below_z_surface_fraction']:.4%}; "
+        f"sdfor < 50 m everywhere = {checks['sdfor_lt_50m_everywhere']}."
+    )
+    if checks["sdfor_offending_cells"]:
+        typer.echo(f"sdfor offending cells: {checks['sdfor_offending_cells']}")
+    if not checks["time_covers_config"]:
+        typer.echo(
+            "Note: cache does not cover the full configured 2014-2024 window; "
+            "this is expected for --year debugging runs."
+        )
+
+
+@app.command("era5_v2_assemble")
+def era5_v2_assemble(config: Path = DEFAULT_CONFIG) -> None:
+    """Assemble and verify the completed hybrid ERA5 v2 raw cache."""
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
+    cfg = _load_v2_config(config)
+
+    started = time.monotonic()
+    zarr_path = assemble_zarr_from_raw_cache(cfg)
+    processing_elapsed = time.monotonic() - started
+    checks = verify_cache(zarr_path, cfg)
+    zarr_size_mb = _path_size_bytes(zarr_path) / 1024**2
+
+    typer.echo(
+        "ERA5 v2 assemble complete: "
+        f"processing {processing_elapsed / 60:.1f} min, "
+        f"zarr={zarr_path}, size={zarr_size_mb:.1f} MB."
+    )
+    typer.echo(
+        "Verification: "
+        f"time {checks['time_first']} to {checks['time_last']}, "
+        f"gaps={checks['time_has_gaps']}, "
+        f"z(1000 hPa) < z_surface fraction="
+        f"{checks['z1000_below_z_surface_fraction']:.4%}, "
+        f"sdfor < 50 m everywhere={checks['sdfor_lt_50m_everywhere']}."
+    )
+    if checks["sdfor_offending_cells"]:
+        typer.echo(f"sdfor offending cells: {checks['sdfor_offending_cells']}")
+
+
+@app.command("era5_v2_timeseries")
+def era5_v2_timeseries(
+    config: Path = DEFAULT_CONFIG,
+    dry_run: bool = typer.Option(
+        False,
+        "--dry-run",
+        help="Print point time-series requests without contacting CDS.",
+    ),
+) -> None:
+    """Fetch fast single-level point time-series variables for all SPb grid cells."""
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
+    cfg = _load_v2_config(config)
+    if dry_run:
+        for line in describe_timeseries_dry_run(cfg):
+            typer.echo(line)
+        return
+
+    started = time.monotonic()
+    result = fetch_single_levels_timeseries_all(cfg)
+    elapsed = time.monotonic() - started
+    typer.echo(
+        "ERA5 v2 time-series complete: "
+        f"{len(result['paths'])}/{result['n_points']} grid points, "
+        f"{result['n_variables']} variables, "
+        f"{result['n_cached']} cached, "
+        f"elapsed {elapsed / 60:.1f} min, raw_dir={result['raw_dir']}."
+    )
+
+
+@app.command("era5_v2_backfill")
+def era5_v2_backfill(
+    config: Path = DEFAULT_CONFIG,
+    dry_run: bool = typer.Option(
+        False,
+        "--dry-run",
+        help="Print pressure/missing-single requests without contacting CDS.",
+    ),
+    year: int | None = typer.Option(
+        None,
+        "--year",
+        help="Fetch a single year instead of the full configured range.",
+    ),
+    start_year: int | None = typer.Option(
+        None,
+        "--start-year",
+        help="First year to fetch when --year is not set.",
+    ),
+    end_year: int | None = typer.Option(
+        None,
+        "--end-year",
+        help="Last year to fetch when --year is not set.",
+    ),
+    stage: str = typer.Option(
+        "all",
+        "--stage",
+        help="Which backfill stage to run: pressure, missing_single_levels, or all.",
+    ),
+) -> None:
+    """Backfill slow CDS fields: pressure first, then missing single-level vars."""
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
+    cfg = _load_v2_config(config)
+    selected_years = _selected_years(year, start_year, end_year)
+
+    if dry_run:
+        for line in describe_backfill_dry_run(cfg, selected_years, stage):
+            typer.echo(line)
+        return
+
+    started = time.monotonic()
+    result = fetch_pressure_then_missing_single_levels(cfg, selected_years, stage)
+    elapsed = time.monotonic() - started
+    typer.echo(
+        "ERA5 v2 backfill complete: "
+        f"{len(result['pressure_levels'])} pressure file(s), "
+        f"{len(result['missing_single_levels'])} missing-single file(s), "
+        f"elapsed {elapsed / 60:.1f} min."
+    )
+
+
+@app.command("era5_v2_enqueue")
+def era5_v2_enqueue(
+    config: Path = DEFAULT_CONFIG,
+    year: int | None = typer.Option(
+        None,
+        "--year",
+        help="Submit a single year instead of the full configured range.",
+    ),
+    start_year: int | None = typer.Option(
+        None,
+        "--start-year",
+        help="First year to submit when --year is not set.",
+    ),
+    end_year: int | None = typer.Option(
+        None,
+        "--end-year",
+        help="Last year to submit when --year is not set.",
+    ),
+    stage: str = typer.Option(
+        "all",
+        "--stage",
+        help="Which backfill stage to enqueue: pressure, missing_single_levels, or all.",
+    ),
+    log_path: Path = typer.Option(
+        Path("logs/era5_v2_enqueue_requests.jsonl"),
+        "--log-path",
+        help="JSONL file where submitted CDS request IDs are recorded.",
+    ),
+) -> None:
+    """Submit packed ERA5 v2 backfill requests to CDS without waiting."""
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
+    cfg = _load_v2_config(config)
+    selected_years = _selected_years(year, start_year, end_year)
+    result = enqueue_backfill_requests(cfg, selected_years, stage, log_path)
+    typer.echo(
+        "ERA5 v2 enqueue complete: "
+        f"{result['submitted']} submitted, "
+        f"{result['skipped']} skipped, "
+        f"{result['failed']} failed, "
+        f"log={result['log_path']}."
+    )
+
+
+def _selected_years(
+    year: int | None,
+    start_year: int | None,
+    end_year: int | None,
+) -> list[int] | None:
+    if year is not None:
+        if start_year is not None or end_year is not None:
+            raise typer.BadParameter("--year cannot be combined with --start-year/--end-year")
+        return [year]
+    if start_year is None and end_year is None:
+        return None
+    if start_year is None or end_year is None:
+        raise typer.BadParameter("--start-year and --end-year must be provided together")
+    if end_year < start_year:
+        raise typer.BadParameter("--end-year must be greater than or equal to --start-year")
+    return list(range(start_year, end_year + 1))
 
 
 @app.command()
@@ -225,6 +471,12 @@ def all(config: Path = DEFAULT_CONFIG) -> None:
     favorable(config)
     aggregate(config)
     viz(config)
+
+
+def _path_size_bytes(path: Path) -> int:
+    if path.is_file():
+        return path.stat().st_size
+    return sum(child.stat().st_size for child in path.rglob("*") if child.is_file())
 
 
 if __name__ == "__main__":

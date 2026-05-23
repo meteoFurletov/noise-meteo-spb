@@ -280,28 +280,35 @@ def plot_stability_agreement(ds: xr.Dataset, output_path: Path) -> None:
     labels = diagnostics["labels"]
 
     with plt.rc_context(plotting_config()):
-        fig, ax = plt.subplots(figsize=(5.8, 4.9), constrained_layout=True)
+        fig, ax = plt.subplots(figsize=(6.2, 5.2), constrained_layout=True)
         im = ax.imshow(normalized, cmap="viridis", vmin=0.0, vmax=1.0)
         cbar = fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04)
-        cbar.set_label("Row-normalized fraction")
+        cbar.set_label("Доля случаев (нормировка по строке)")
 
         ax.set_xticks(np.arange(7), labels=labels)
         ax.set_yticks(np.arange(7), labels=labels)
-        ax.set_xlabel("Pasquill-Gifford class")
-        ax.set_ylabel("Bulk Richardson class")
-        ax.set_title(
-            "Stability-class agreement\n"
-            f"stable/non-stable: {diagnostics['agreement_fraction']:.0%}; "
-            f"exact class: {diagnostics['exact_class_agreement_fraction']:.0%}"
+        ax.set_xlabel("Класс по Паскуиллу")
+        ax.set_ylabel("Класс по числу Ричардсона")
+        ax.set_title("Согласие классификаций устойчивости пограничного слоя", pad=24)
+        n_label = f"N = {diagnostics['n_valid']:,} парных наблюдений".replace(",", " ")
+        ax.text(
+            0.02,
+            1.01,
+            n_label,
+            transform=ax.transAxes,
+            ha="left",
+            va="bottom",
+            fontsize=9,
         )
 
         for i in range(7):
             for j in range(7):
                 value = normalized[i, j]
+                count_label = f"{counts[i, j]:,}".replace(",", " ")
                 ax.text(
                     j,
                     i,
-                    f"{value:.0%}\n({counts[i, j]:,})",
+                    f"{value:.0%}\n({count_label})",
                     ha="center",
                     va="center",
                     color="white",
@@ -309,7 +316,10 @@ def plot_stability_agreement(ds: xr.Dataset, output_path: Path) -> None:
                 )
 
         output_path.parent.mkdir(parents=True, exist_ok=True)
-        fig.savefig(output_path)
+        if output_path.suffix.lower() == ".png":
+            fig.savefig(output_path, pil_kwargs={"compress_level": 9, "optimize": True})
+        else:
+            fig.savefig(output_path)
         plt.close(fig)
 
 

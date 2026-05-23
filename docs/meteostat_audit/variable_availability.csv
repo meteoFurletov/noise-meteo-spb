@@ -1,0 +1,3 @@
+station_id,n_rows,temp_pct,dwpt_pct,rhum_pct,wdir_pct,wspd_pct,wpgt_pct,pres_pct
+26063,720,100.0,,100.0,100.0,100.0,100.0,100.0
+26072,720,100.0,,100.0,100.0,100.0,100.0,100.0
