@@ -1,0 +1,35 @@
+standard: gost-7.32-2017
+preset: default
+
+front_matter:
+  referat: 00_referat.md
+  introduction: 01_introduction.md
+
+chapters:
+  - number: 1
+    title: Постановка задачи и состояние области
+    file: 10_chapter1.md
+  - number: 2
+    title: Физические основы распространения звука в атмосфере
+    file: 20_chapter2.md
+  - number: 3
+    title: Стратегия и методология исследования
+    file: 30_chapter3.md
+  - number: 4
+    title: Программная реализация и результаты
+    file: 40_chapter4.md
+
+back_matter:
+  conclusion: 90_conclusion.md
+
+bibliography:
+  source: sources.yaml
+  order: appearance
+
+figures:
+  registry: figures.yaml
+
+skip_patterns:
+  - "*_outline.md"
+  - "*_draft.md"
+  - "02_chapter1.md"

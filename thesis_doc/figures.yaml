@@ -1,0 +1,62 @@
+# Figure registry. Each key is referenced from markdown via [[fig:key]].
+# Path is resolved relative to thesis_doc/. Only .png/.jpg/.jpeg are accepted.
+
+# Chapter 2 — 4 figures
+
+fig_2_1:
+  path: figures/fig_2_1.png
+  caption: Геометрия задачи распространения звука
+
+fig_2_2:
+  path: figures/fig_2_2.png
+  caption: Атмосферное поглощение звука
+
+fig_2_3:
+  path: figures/fig_2_3.png
+  caption: Рефракция звука в стратифицированной атмосфере
+
+fig_2_4:
+  path: figures/fig_2_4.png
+  caption: Турбулентные флуктуации поля скорости звука
+
+# Chapter 4 — 10 figures (PNGs copied from docs/figures/ into thesis_doc/figures/)
+
+fig_4_4_1:
+  path: figures/fig_4_4_1.png
+  caption: Среднегодовая структура посекторной благоприятности для центральной ячейки СПб по основному каналу — ветровой, термический и совокупный компоненты
+
+fig_4_5_1:
+  path: figures/fig_4_5_1.png
+  caption: Буферные зоны КАД км 105, дневной период, контур 55 дБА
+
+fig_4_5_2:
+  path: figures/fig_4_5_2.png
+  caption: Буферные зоны КАД км 105, ночной период, контур 45 дБА
+
+fig_4_6_1:
+  path: figures/fig_4_6_1.png
+  caption: Сравнение пяти классификаторов термической благоприятности с эталоном Воейково 30,1 %
+
+fig_4_6_2:
+  path: figures/fig_4_6_2.png
+  caption: Сезонно-суточная динамика термической компоненты для центральной ячейки СПб
+
+fig_4_6_3:
+  path: figures/fig_4_6_3.png
+  caption: Среднегодовая климатологическая вероятность p_благ для домена Санкт-Петербурга
+
+fig_4_6_4:
+  path: figures/fig_4_6_4.png
+  caption: Сезонно-суточная динамика посекторной благоприятности для центральной ячейки СПб
+
+fig_4_7_1:
+  path: figures/fig_4_7_1.png
+  caption: Валидация Ri_b по зондовым данным Воейково — матрица сопряжённости, сопоставление значений, сезонная стратификация
+
+fig_4_8_1a:
+  path: figures/fig_4_8_1a.png
+  caption: Полярная диаграмма посекторных оценок p_благ_ветр (станция 26063)
+
+fig_4_8_1b:
+  path: figures/fig_4_8_1b.png
+  caption: Посекторные расхождения p_благ_ветр (ERA5 − станция 26063)

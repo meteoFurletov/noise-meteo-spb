@@ -1,0 +1,512 @@
+iso-9613-2-1996:
+  type: standard
+  code: "ISO 9613-2:1996"
+  title: "Acoustics — Attenuation of sound during propagation outdoors — Part 2: General method of calculation"
+  place: Geneva
+  publisher: "International Organization for Standardization"
+  year: 1996
+  pages: 24
+  content_type: "Текст"
+  access: непосредственный
+
+gost-31295-2-2005:
+  type: standard
+  code: "ГОСТ 31295.2-2005"
+  title: "Шум. Затухание звука при распространении на местности. Часть 2: Общий метод расчёта"
+  place: Москва
+  publisher: Стандартинформ
+  year: 2006
+  pages: 40
+  content_type: "Текст"
+  access: непосредственный
+
+hersbach-2020-era5:
+  type: article
+  author: "Hersbach H."
+  title: "The ERA5 global reanalysis"
+  responsibility: "H. Hersbach, B. Bell, P. Berrisford [и др.]"
+  journal: "Quarterly Journal of the Royal Meteorological Society"
+  year: 2020
+  volume: 146
+  issue: 730
+  pages: "1999–2049"
+  content_type: "Текст"
+  access: электронный
+
+who-2018-noise:
+  type: book
+  author: "World Health Organization"
+  title: "Environmental noise guidelines for the European Region"
+  responsibility: "World Health Organization Regional Office for Europe"
+  place: Copenhagen
+  publisher: "WHO Regional Office for Europe"
+  year: 2018
+  pages: 160
+  isbn: "978-92-890-5356-3"
+  content_type: "Текст"
+  access: непосредственный
+
+eea-2025:
+  type: website
+  author: "European Environment Agency"
+  title: "Environmental noise in Europe — 2025"
+  site: "European Environment Agency"
+  year: 2025
+  url: "https://www.eea.europa.eu/publications/environmental-noise-in-europe-2025"
+  accessed: "25.05.2026"
+  content_type: "Текст"
+  access: электронный
+
+rospotrebnadzor-2024:
+  type: website
+  author: "Федеральная служба по надзору в сфере защиты прав потребителей и благополучия человека"
+  title: "О состоянии санитарно-эпидемиологического благополучия населения в Российской Федерации в 2023 году : государственный доклад"
+  site: "Роспотребнадзор"
+  year: 2024
+  url: "https://www.rospotrebnadzor.ru/documents/"
+  accessed: "25.05.2026"
+  content_type: "Текст"
+  access: электронный
+
+
+sp-276-1325800-2016:
+  type: standard
+  code: "СП 276.1325800.2016"
+  title: "Здания и территории. Правила проектирования защиты от шума транспортных потоков"
+  place: Москва
+  publisher: Стандартинформ
+  year: 2016
+  pages: 80
+  content_type: "Текст"
+  access: непосредственный
+
+iso-9613-2-2024:
+  type: standard
+  code: "ISO 9613-2:2024"
+  title: "Acoustics — Attenuation of sound during propagation outdoors — Part 2: Engineering method for the prediction of sound pressure levels outdoors"
+  place: Geneva
+  publisher: "International Organization for Standardization"
+  year: 2024
+  pages: 56
+  content_type: "Текст"
+  access: электронный
+
+
+# sources.yaml additions for Chapter 2
+# 21 new keys. Keys already in master sources.yaml — not redefined here:
+#   hersbach-2020-era5, gost-31295-2-2005, iso-9613-2-1996
+# All entries follow GOST R 7.0.100-2018 schema.
+
+# ============================================================
+# Books
+# ============================================================
+
+
+salomons-2001:
+  type: book
+  author: "Salomons E. M."
+  title: "Computational Atmospheric Acoustics"
+  responsibility: "E. M. Salomons"
+  place: Dordrecht
+  publisher: "Kluwer Academic Publishers"
+  year: 2001
+  pages: 335
+  isbn: "978-0-7923-7161-8"
+  content_type: "Текст"
+  access: непосредственный
+
+tatarski-1967:
+  type: book
+  author: "Татарский В. И."
+  title: "Распространение волн в турбулентной атмосфере"
+  responsibility: "В. И. Татарский"
+  place: Москва
+  publisher: Наука
+  year: 1967
+  pages: 548
+  content_type: "Текст"
+  access: непосредственный
+
+
+# ============================================================
+# Standards
+# ============================================================
+
+iso-9613-1-1993:
+  type: standard
+  code: "ISO 9613-1:1993"
+  title: "Acoustics — Attenuation of sound during propagation outdoors — Part 1: Calculation of the absorption of sound by the atmosphere"
+  place: Geneva
+  publisher: "International Organization for Standardization"
+  year: 1993
+  pages: 22
+  content_type: "Текст"
+  access: электронный
+
+
+gost-20444-2014:
+  type: standard
+  code: "ГОСТ 20444-2014"
+  title: "Шум. Транспортные потоки. Методы определения шумовой характеристики"
+  place: Москва
+  publisher: Стандартинформ
+  year: 2015
+  pages: 20
+  content_type: "Текст"
+  access: непосредственный
+
+# ============================================================
+# Articles
+# ============================================================
+
+bass-1995:
+  type: article
+  author: "Bass H. E."
+  title: "Atmospheric absorption of sound: Further developments"
+  responsibility: "H. E. Bass, L. C. Sutherland, A. J. Zuckerwar [и др.]"
+  journal: "Journal of the Acoustical Society of America"
+  year: 1995
+  volume: 97
+  issue: 1
+  pages: "680–683"
+  content_type: "Текст"
+  access: электронный
+
+wilson-2003:
+  type: article
+  author: "Wilson D. K."
+  title: "The sound speed gradient and refraction in the near-ground atmosphere"
+  responsibility: "D. K. Wilson"
+  journal: "Journal of the Acoustical Society of America"
+  year: 2003
+  volume: 113
+  issue: 2
+  pages: "750–757"
+  content_type: "Текст"
+  access: электронный
+
+heimann-salomons-2004:
+  type: article
+  author: "Heimann D."
+  title: "Testing meteorological classifications for the prediction of long-term average sound levels"
+  responsibility: "D. Heimann, E. M. Salomons"
+  journal: "Applied Acoustics"
+  year: 2004
+  volume: 65
+  issue: 10
+  pages: "925–950"
+  content_type: "Текст"
+  access: электронный
+
+
+gifford-1962:
+  type: article
+  author: "Gifford F. A."
+  title: "Use of routine meteorological observations for estimating atmospheric dispersion"
+  responsibility: "F. A. Gifford"
+  journal: "Nuclear Safety"
+  year: 1962
+  volume: 2
+  issue: 4
+  pages: "47–51"
+  content_type: "Текст"
+  access: электронный
+
+
+obukhov-1946:
+  type: article
+  author: "Обухов А. М."
+  title: "Турбулентность в атмосфере с неоднородной температурой"
+  responsibility: "А. М. Обухов"
+  journal: "Труды Института теоретической геофизики АН СССР"
+  year: 1946
+  volume: 1
+  pages: "95–115"
+  content_type: "Текст"
+  access: непосредственный
+
+monin-obukhov-1954:
+  type: article
+  author: "Монин А. С."
+  title: "Основные закономерности турбулентного перемешивания в приземном слое атмосферы"
+  responsibility: "А. С. Монин, А. М. Обухов"
+  journal: "Труды Геофизического института АН СССР"
+  year: 1954
+  issue: "24 (151)"
+  pages: "163–187"
+  content_type: "Текст"
+  access: непосредственный
+
+mohan-siddiqui-1998:
+  type: article
+  author: "Mohan M."
+  title: "Analysis of various schemes for the estimation of atmospheric stability classification"
+  responsibility: "M. Mohan, T. A. Siddiqui"
+  journal: "Atmospheric Environment"
+  year: 1998
+  volume: 32
+  issue: 21
+  pages: "3775–3781"
+  content_type: "Текст"
+  access: электронный
+
+grachev-2013:
+  type: article
+  author: "Grachev A. A."
+  title: "The Critical Richardson Number and Limits of Applicability of Local Similarity Theory in the Stable Boundary Layer"
+  responsibility: "A. A. Grachev, E. L. Andreas, C. W. Fairall [и др.]"
+  journal: "Boundary-Layer Meteorology"
+  year: 2013
+  volume: 147
+  issue: 1
+  pages: "51–82"
+  content_type: "Текст"
+  access: электронный
+
+hogstrom-1996:
+  type: article
+  author: "Högström U."
+  title: "Review of some basic characteristics of the atmospheric surface layer"
+  responsibility: "U. Högström"
+  journal: "Boundary-Layer Meteorology"
+  year: 1996
+  volume: 78
+  issue: "3–4"
+  pages: "215–246"
+  content_type: "Текст"
+  access: электронный
+
+mahrt-1999:
+  type: article
+  author: "Mahrt L."
+  title: "Stratified atmospheric boundary layers"
+  responsibility: "L. Mahrt"
+  journal: "Boundary-Layer Meteorology"
+  year: 1999
+  volume: 90
+  issue: 3
+  pages: "375–396"
+  content_type: "Текст"
+  access: электронный
+
+roth-2000:
+  type: article
+  author: "Roth M."
+  title: "Review of atmospheric turbulence over cities"
+  responsibility: "M. Roth"
+  journal: "Quarterly Journal of the Royal Meteorological Society"
+  year: 2000
+  volume: 126
+  issue: 564
+  pages: "941–990"
+  content_type: "Текст"
+  access: электронный
+
+
+plovsing-2006a:
+  type: conference
+  author: "Plovsing B."
+  title: "Nord2000. Comprehensive Outdoor Sound Propagation Model. Part 1: Propagation in an Atmosphere without Significant Refraction"
+  proceedings: "DELTA Acoustics Technical Report AV 1849/00"
+  place: København
+  publisher: DELTA
+  year: 2006
+  pages: "1–62"
+  content_type: "Текст"
+  access: электронный
+
+plovsing-2006b:
+  type: conference
+  author: "Plovsing B."
+  title: "Nord2000. Comprehensive Outdoor Sound Propagation Model. Part 2: Propagation in an Atmosphere with Refraction"
+  proceedings: "DELTA Acoustics Technical Report AV 1851/00"
+  place: København
+  publisher: DELTA
+  year: 2006
+  pages: "1–74"
+  content_type: "Текст"
+  access: электронный
+
+salomons-2011:
+  type: article
+  author: "Salomons E."
+  title: "The European Harmonoise model for environmental noise prediction and its application to noise mapping"
+  responsibility: "E. Salomons, D. van Maercke, J. Defrance, F. de Roo"
+  journal: "Acta Acustica united with Acustica"
+  year: 2011
+  volume: 97
+  issue: 1
+  pages: "62–74"
+  content_type: "Текст"
+  access: электронный
+
+
+gladkikh-2025:
+  type: article
+  author: "Гладких В. А."
+  title: "Сопоставление методов классификации стратификации приземного слоя атмосферы"
+  responsibility: "В. А. Гладких [и др.]"
+  journal: "Оптика атмосферы и океана"
+  year: 2025
+  volume: 38
+  issue: 9
+  pages: "701–708"
+  content_type: "Текст"
+  access: электронный
+
+gost-31295-1-2005:
+  type: standard
+  code: "ГОСТ 31295.1-2005"
+  title: "Шум. Затухание звука при распространении на местности. Часть 1: Расчёт поглощения звука атмосферой"
+  place: Москва
+  publisher: Стандартинформ
+  year: 2006
+  pages: 19
+  content_type: "Текст"
+  access: непосредственный
+
+
+directive-2002-49-ec:
+  type: law
+  jurisdiction: "European Union"
+  title: "Directive 2002/49/EC of the European Parliament and of the Council relating to the assessment and management of environmental noise"
+  code: "Directive 2002/49/EC"
+  place: Brussels
+  publisher: "European Parliament and Council"
+  year: 2002
+  pages: 14
+  content_type: "Текст"
+  access: электронный
+
+
+pasquill-1961:
+  type: article
+  author: "Pasquill F."
+  title: "The estimation of the dispersion of windborne material"
+  journal: "The Meteorological Magazine"
+  year: 1961
+  volume: 90
+  issue: 1063
+  pages: "33–49"
+  content_type: "Текст"
+  access: непосредственный
+
+turner-1964:
+  type: article
+  author: "Turner D. B."
+  title: "A diffusion model for an urban area"
+  journal: "Journal of Applied Meteorology"
+  year: 1964
+  volume: 3
+  issue: 1
+  pages: "83–91"
+  content_type: "Текст"
+  access: электронный
+
+eurasto-2006:
+  type: conference
+  author: "Eurasto R."
+  title: "Nord2000 for road traffic noise prediction. Weather classes and statistics"
+  proceedings: "VTT Technical Research Centre of Finland, Report VTT-R-02530-06"
+  place: Espoo
+  publisher: VTT
+  year: 2006
+  pages: "1–32"
+  content_type: "Текст"
+  access: электронный
+
+
+lobatovkina-larionova-2015:
+  type: book
+  author: "Лобатовкина Е. Г."
+  title: "Оценка уровня шумового воздействия транспорта методом математического моделирования (расчетный метод) : методические указания к выполнению практических работ по дисциплине «Проектирование и реконструкция зданий» для студентов магистратуры направления подготовки 08.04.01 Строительство"
+  responsibility: "сост.: Е. Г. Лобатовкина, К. О. Ларионова ; М-во образования и науки Рос. Федерации, Нац. исследоват. Моск. гос. строит. ун-т., каф. архитектуры гражданских и промышленных зданий"
+  place: Москва
+  publisher: "НИУ МГСУ"
+  year: 2015
+  isbn: "978-5-7264-1096-8"
+  content_type: "Текст"
+  access: электронный
+
+odintsov-2025:
+  type: article
+  author: "Одинцов С. Л."
+  title: "Использование масштаба Монина–Обухова для определения типа стратификации в приземном слое атмосферы"
+  responsibility: "С. Л. Одинцов, В. А. Гладких, А. П. Камардин, И. В. Невзорова"
+  journal: "Оптика атмосферы и океана"
+  year: 2025
+  volume: 38
+  issue: 5
+  content_type: "Текст"
+  access: электронный
+
+stull-1988:
+  type: book
+  author: "Stull R. B."
+  title: "An Introduction to Boundary Layer Meteorology"
+  responsibility: "R. B. Stull"
+  place: Dordrecht
+  publisher: "Kluwer Academic Publishers"
+  year: 1988
+  pages: 666
+  isbn: "978-90-277-2769-5"
+  content_type: "Текст"
+  access: непосредственный
+
+kephalopoulos-2012:
+  type: book
+  author: "Kephalopoulos S."
+  title: "Common Noise Assessment Methods in Europe (CNOSSOS-EU) : JRC Reference Report"
+  responsibility: "S. Kephalopoulos, M. Paviotti, F. Anfosso-Lédée"
+  place: Luxembourg
+  publisher: "Publications Office of the European Union"
+  year: 2012
+  pages: 180
+  isbn: "978-92-79-25281-5"
+  content_type: "Текст"
+  access: электронный
+
+directive-2015-996:
+  type: law
+  jurisdiction: "European Union"
+  title: "Commission Directive (EU) 2015/996 of 19 May 2015 establishing common noise assessment methods according to Directive 2002/49/EC of the European Parliament and of the Council"
+  code: "Directive (EU) 2015/996"
+  place: Brussels
+  publisher: "European Commission"
+  year: 2015
+  pages: 823
+  content_type: "Текст"
+  access: электронный
+
+sn-2-2-4-2-1-8-562-96:
+  type: standard
+  code: "СН 2.2.4/2.1.8.562-96"
+  title: "Шум на рабочих местах, в помещениях жилых, общественных зданий и на территории жилой застройки. Санитарные нормы"
+  place: Москва
+  publisher: "Госкомсанэпиднадзор России"
+  year: 1996
+  pages: 8
+  content_type: "Текст"
+  access: непосредственный
+
+sanpin-1-2-3685-21:
+  type: standard
+  code: "СанПиН 1.2.3685-21"
+  title: "Гигиенические нормативы и требования к обеспечению безопасности и (или) безвредности для человека факторов среды обитания"
+  place: Москва
+  publisher: "Роспотребнадзор"
+  year: 2021
+  pages: 469
+  content_type: "Текст"
+  access: непосредственный
+
+tii-2022:
+  type: website
+  author: "Transport Infrastructure Ireland"
+  title: "Common Noise Assessment Methods in Europe (CNOSSOS-EU): Meteorological Correction Factors for Ireland, RE-ENV-07007"
+  site: "Transport Infrastructure Ireland Publications"
+  year: 2022
+  url: "https://www.tiipublications.ie/library/RE-ENV-07007-02.pdf"
+  accessed: "12.05.2026"
+  content_type: "Текст"
+  access: электронный

@@ -1,0 +1,163 @@
+[2026-05-23 11:03:34] submitting fdir 2014 -> data/raw/era5_v2/era5_spb_v2_fdir_2014.nc
+2026-05-23 11:03:35,578 INFO [2025-12-11T00:00:00] Please note that a dedicated catalogue entry for this dataset, post-processed and stored in Analysis Ready Cloud Optimized (ARCO) format (Zarr), is available for optimised time-series retrievals (i.e. for retrieving data from selected variables for a single point over an extended period of time in an efficient way). You can discover it [here](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-timeseries?tab=overview)
+[2026-05-23 11:03:35] [2025-12-11T00:00:00] Please note that a dedicated catalogue entry for this dataset, post-processed and stored in Analysis Ready Cloud Optimized (ARCO) format (Zarr), is available for optimised time-series retrievals (i.e. for retrieving data from selected variables for a single point over an extended period of time in an efficient way). You can discover it [here](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-timeseries?tab=overview)
+2026-05-23 11:03:35,578 INFO Request ID is 31dafc15-0952-48ac-a2db-a648acaca95d
+[2026-05-23 11:03:35] Request ID is 31dafc15-0952-48ac-a2db-a648acaca95d
+2026-05-23 11:03:35,974 INFO status has been updated to accepted
+[2026-05-23 11:03:35] status has been updated to accepted
+2026-05-23 11:03:59,121 INFO status has been updated to running
+[2026-05-23 11:03:59] status has been updated to running
+2026-05-23 11:16:13,580 INFO status has been updated to successful
+[2026-05-23 11:16:13] status has been updated to successful
+[2026-05-23 11:16:14] Downloading https://object-store.os-api.cci2.ecmwf.int:443/cci2-prod-cache-2/2026-05-23/3ab022e8fcc3da79c6aa5d54967976ae.nc
+3ab022e8fcc3da79c6aa5d54967976ae.nc:   0%|          | 0.00/860k [00:00<?, ?B/s]3ab022e8fcc3da79c6aa5d54967976ae.nc: 100%|██████████| 860k/860k [00:01<00:00, 773kB/s]                                                                                      [2026-05-23 11:16:16] completed fdir 2014 in 12.7 min
+[2026-05-23 11:16:16] submitting fdir 2015 -> data/raw/era5_v2/era5_spb_v2_fdir_2015.nc
+2026-05-23 11:16:17,112 INFO [2025-12-11T00:00:00] Please note that a dedicated catalogue entry for this dataset, post-processed and stored in Analysis Ready Cloud Optimized (ARCO) format (Zarr), is available for optimised time-series retrievals (i.e. for retrieving data from selected variables for a single point over an extended period of time in an efficient way). You can discover it [here](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-timeseries?tab=overview)
+[2026-05-23 11:16:17] [2025-12-11T00:00:00] Please note that a dedicated catalogue entry for this dataset, post-processed and stored in Analysis Ready Cloud Optimized (ARCO) format (Zarr), is available for optimised time-series retrievals (i.e. for retrieving data from selected variables for a single point over an extended period of time in an efficient way). You can discover it [here](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-timeseries?tab=overview)
+2026-05-23 11:16:17,113 INFO Request ID is 750ec017-d344-45c8-aa20-3e4d48aa686a
+[2026-05-23 11:16:17] Request ID is 750ec017-d344-45c8-aa20-3e4d48aa686a
+2026-05-23 11:16:17,460 INFO status has been updated to accepted
+[2026-05-23 11:16:17] status has been updated to accepted
+2026-05-23 11:16:41,892 INFO status has been updated to running
+[2026-05-23 11:16:41] status has been updated to running
+2026-05-23 11:28:50,134 INFO status has been updated to successful
+[2026-05-23 11:28:50] status has been updated to successful
+[2026-05-23 11:28:50] Downloading https://object-store.os-api.cci2.ecmwf.int:443/cci2-prod-cache-2/2026-05-23/89b186e05a9b4e67b559721f2b0e6ea5.nc
+89b186e05a9b4e67b559721f2b0e6ea5.nc:   0%|          | 0.00/860k [00:00<?, ?B/s]89b186e05a9b4e67b559721f2b0e6ea5.nc: 100%|██████████| 860k/860k [00:01<00:00, 871kB/s]                                                                                      [2026-05-23 11:28:52] completed fdir 2015 in 12.6 min
+[2026-05-23 11:28:52] submitting fdir 2016 -> data/raw/era5_v2/era5_spb_v2_fdir_2016.nc
+2026-05-23 11:28:53,164 INFO [2025-12-11T00:00:00] Please note that a dedicated catalogue entry for this dataset, post-processed and stored in Analysis Ready Cloud Optimized (ARCO) format (Zarr), is available for optimised time-series retrievals (i.e. for retrieving data from selected variables for a single point over an extended period of time in an efficient way). You can discover it [here](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-timeseries?tab=overview)
+[2026-05-23 11:28:53] [2025-12-11T00:00:00] Please note that a dedicated catalogue entry for this dataset, post-processed and stored in Analysis Ready Cloud Optimized (ARCO) format (Zarr), is available for optimised time-series retrievals (i.e. for retrieving data from selected variables for a single point over an extended period of time in an efficient way). You can discover it [here](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-timeseries?tab=overview)
+2026-05-23 11:28:53,165 INFO Request ID is d6eb0674-0a0e-4d8c-becc-2b3ed5f3ea4a
+[2026-05-23 11:28:53] Request ID is d6eb0674-0a0e-4d8c-becc-2b3ed5f3ea4a
+2026-05-23 11:28:53,319 INFO status has been updated to accepted
+[2026-05-23 11:28:53] status has been updated to accepted
+2026-05-23 11:29:10,474 INFO status has been updated to running
+[2026-05-23 11:29:10] status has been updated to running
+[2026-05-23 11:32:17] FAILED fdir 2016: HTTPSConnectionPool(host='cds.climate.copernicus.eu', port=443): Max retries exceeded with url: /api/retrieve/v1/jobs/d6eb0674-0a0e-4d8c-becc-2b3ed5f3ea4a?log=True&request=True (Caused by SSLError(SSLEOFError(8, '[SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081)')))
+[2026-05-23 11:32:17] submitting fdir 2017 -> data/raw/era5_v2/era5_spb_v2_fdir_2017.nc
+2026-05-23 11:32:20,023 INFO [2025-12-11T00:00:00] Please note that a dedicated catalogue entry for this dataset, post-processed and stored in Analysis Ready Cloud Optimized (ARCO) format (Zarr), is available for optimised time-series retrievals (i.e. for retrieving data from selected variables for a single point over an extended period of time in an efficient way). You can discover it [here](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-timeseries?tab=overview)
+[2026-05-23 11:32:20] [2025-12-11T00:00:00] Please note that a dedicated catalogue entry for this dataset, post-processed and stored in Analysis Ready Cloud Optimized (ARCO) format (Zarr), is available for optimised time-series retrievals (i.e. for retrieving data from selected variables for a single point over an extended period of time in an efficient way). You can discover it [here](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-timeseries?tab=overview)
+2026-05-23 11:32:20,023 INFO Request ID is 3a9e4f65-443b-4e8d-b72f-83fb22061139
+[2026-05-23 11:32:20] Request ID is 3a9e4f65-443b-4e8d-b72f-83fb22061139
+2026-05-23 11:32:20,322 INFO status has been updated to accepted
+[2026-05-23 11:32:20] status has been updated to accepted
+2026-05-23 11:40:53,668 INFO status has been updated to running
+[2026-05-23 11:40:53] status has been updated to running
+2026-05-23 11:53:06,220 INFO status has been updated to successful
+[2026-05-23 11:53:06] status has been updated to successful
+[2026-05-23 11:53:06] Downloading https://object-store.os-api.cci2.ecmwf.int:443/cci2-prod-cache-1/2026-05-23/e968b379829d66dfb1a775f5302f8caa.nc
+e968b379829d66dfb1a775f5302f8caa.nc:   0%|          | 0.00/860k [00:00<?, ?B/s]e968b379829d66dfb1a775f5302f8caa.nc: 100%|██████████| 860k/860k [00:01<00:00, 546kB/s]                                                                                      [2026-05-23 11:53:08] completed fdir 2017 in 20.8 min
+[2026-05-23 11:53:08] submitting fdir 2018 -> data/raw/era5_v2/era5_spb_v2_fdir_2018.nc
+2026-05-23 11:53:09,365 INFO [2025-12-11T00:00:00] Please note that a dedicated catalogue entry for this dataset, post-processed and stored in Analysis Ready Cloud Optimized (ARCO) format (Zarr), is available for optimised time-series retrievals (i.e. for retrieving data from selected variables for a single point over an extended period of time in an efficient way). You can discover it [here](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-timeseries?tab=overview)
+[2026-05-23 11:53:09] [2025-12-11T00:00:00] Please note that a dedicated catalogue entry for this dataset, post-processed and stored in Analysis Ready Cloud Optimized (ARCO) format (Zarr), is available for optimised time-series retrievals (i.e. for retrieving data from selected variables for a single point over an extended period of time in an efficient way). You can discover it [here](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-timeseries?tab=overview)
+2026-05-23 11:53:09,365 INFO Request ID is d6821216-0789-4e8c-938a-d871b11638eb
+[2026-05-23 11:53:09] Request ID is d6821216-0789-4e8c-938a-d871b11638eb
+2026-05-23 11:53:09,515 INFO status has been updated to accepted
+[2026-05-23 11:53:09] status has been updated to accepted
+2026-05-23 11:53:35,453 INFO status has been updated to running
+[2026-05-23 11:53:35] status has been updated to running
+2026-05-23 12:05:50,699 INFO status has been updated to successful
+[2026-05-23 12:05:50] status has been updated to successful
+[2026-05-23 12:05:51] Downloading https://object-store.os-api.cci2.ecmwf.int:443/cci2-prod-cache-3/2026-05-23/9e22c2b2d1d58aa2b09cf971f293d20f.nc
+9e22c2b2d1d58aa2b09cf971f293d20f.nc:   0%|          | 0.00/861k [00:00<?, ?B/s]9e22c2b2d1d58aa2b09cf971f293d20f.nc: 100%|██████████| 861k/861k [00:01<00:00, 802kB/s]                                                                                      [2026-05-23 12:05:53] completed fdir 2018 in 12.7 min
+[2026-05-23 12:05:53] submitting fdir 2019 -> data/raw/era5_v2/era5_spb_v2_fdir_2019.nc
+2026-05-23 12:05:54,225 INFO [2025-12-11T00:00:00] Please note that a dedicated catalogue entry for this dataset, post-processed and stored in Analysis Ready Cloud Optimized (ARCO) format (Zarr), is available for optimised time-series retrievals (i.e. for retrieving data from selected variables for a single point over an extended period of time in an efficient way). You can discover it [here](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-timeseries?tab=overview)
+[2026-05-23 12:05:54] [2025-12-11T00:00:00] Please note that a dedicated catalogue entry for this dataset, post-processed and stored in Analysis Ready Cloud Optimized (ARCO) format (Zarr), is available for optimised time-series retrievals (i.e. for retrieving data from selected variables for a single point over an extended period of time in an efficient way). You can discover it [here](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-timeseries?tab=overview)
+2026-05-23 12:05:54,225 INFO Request ID is 8915e8e8-0639-47c2-a79e-91f6b75d592f
+[2026-05-23 12:05:54] Request ID is 8915e8e8-0639-47c2-a79e-91f6b75d592f
+2026-05-23 12:05:54,414 INFO status has been updated to accepted
+[2026-05-23 12:05:54] status has been updated to accepted
+2026-05-23 12:06:18,432 INFO status has been updated to running
+[2026-05-23 12:06:18] status has been updated to running
+2026-05-23 12:18:42,139 INFO status has been updated to successful
+[2026-05-23 12:18:42] status has been updated to successful
+[2026-05-23 12:18:42] Downloading https://object-store.os-api.cci2.ecmwf.int:443/cci2-prod-cache-1/2026-05-23/c8f71c2834f6c6135ae4b8256acc3ef5.nc
+c8f71c2834f6c6135ae4b8256acc3ef5.nc:   0%|          | 0.00/856k [00:00<?, ?B/s]c8f71c2834f6c6135ae4b8256acc3ef5.nc: 100%|██████████| 856k/856k [00:01<00:00, 446kB/s]                                                                                      [2026-05-23 12:18:48] completed fdir 2019 in 12.9 min
+[2026-05-23 12:18:48] submitting fdir 2020 -> data/raw/era5_v2/era5_spb_v2_fdir_2020.nc
+2026-05-23 12:18:49,427 INFO [2025-12-11T00:00:00] Please note that a dedicated catalogue entry for this dataset, post-processed and stored in Analysis Ready Cloud Optimized (ARCO) format (Zarr), is available for optimised time-series retrievals (i.e. for retrieving data from selected variables for a single point over an extended period of time in an efficient way). You can discover it [here](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-timeseries?tab=overview)
+[2026-05-23 12:18:49] [2025-12-11T00:00:00] Please note that a dedicated catalogue entry for this dataset, post-processed and stored in Analysis Ready Cloud Optimized (ARCO) format (Zarr), is available for optimised time-series retrievals (i.e. for retrieving data from selected variables for a single point over an extended period of time in an efficient way). You can discover it [here](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-timeseries?tab=overview)
+2026-05-23 12:18:49,428 INFO Request ID is 7430fba7-fab1-4460-babd-5267b6c84df9
+[2026-05-23 12:18:49] Request ID is 7430fba7-fab1-4460-babd-5267b6c84df9
+2026-05-23 12:18:49,759 INFO status has been updated to accepted
+[2026-05-23 12:18:49] status has been updated to accepted
+2026-05-23 12:19:05,620 INFO status has been updated to running
+[2026-05-23 12:19:05] status has been updated to running
+2026-05-23 12:31:58,881 INFO status has been updated to successful
+[2026-05-23 12:31:58] status has been updated to successful
+[2026-05-23 12:31:59] Downloading https://object-store.os-api.cci2.ecmwf.int:443/cci2-prod-cache-1/2026-05-23/33526324668d5bd0af42d54d0144e4f4.nc
+33526324668d5bd0af42d54d0144e4f4.nc:   0%|          | 0.00/863k [00:00<?, ?B/s]33526324668d5bd0af42d54d0144e4f4.nc: 100%|██████████| 863k/863k [00:02<00:00, 362kB/s]                                                                                      [2026-05-23 12:32:02] completed fdir 2020 in 13.2 min
+[2026-05-23 12:32:02] submitting fdir 2021 -> data/raw/era5_v2/era5_spb_v2_fdir_2021.nc
+2026-05-23 12:32:06,337 INFO [2025-12-11T00:00:00] Please note that a dedicated catalogue entry for this dataset, post-processed and stored in Analysis Ready Cloud Optimized (ARCO) format (Zarr), is available for optimised time-series retrievals (i.e. for retrieving data from selected variables for a single point over an extended period of time in an efficient way). You can discover it [here](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-timeseries?tab=overview)
+[2026-05-23 12:32:06] [2025-12-11T00:00:00] Please note that a dedicated catalogue entry for this dataset, post-processed and stored in Analysis Ready Cloud Optimized (ARCO) format (Zarr), is available for optimised time-series retrievals (i.e. for retrieving data from selected variables for a single point over an extended period of time in an efficient way). You can discover it [here](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-timeseries?tab=overview)
+2026-05-23 12:32:06,337 INFO Request ID is 2618f48a-bd5e-4c6c-9e67-78da8fce25ae
+[2026-05-23 12:32:06] Request ID is 2618f48a-bd5e-4c6c-9e67-78da8fce25ae
+2026-05-23 12:32:06,643 INFO status has been updated to accepted
+[2026-05-23 12:32:06] status has been updated to accepted
+2026-05-23 12:33:00,328 INFO status has been updated to running
+[2026-05-23 12:33:00] status has been updated to running
+2026-05-23 12:44:40,086 INFO status has been updated to successful
+[2026-05-23 12:44:40] status has been updated to successful
+[2026-05-23 12:44:40] Downloading https://object-store.os-api.cci2.ecmwf.int:443/cci2-prod-cache-1/2026-05-23/abe99d06bf9f84ab513282e78759ef9b.nc
+abe99d06bf9f84ab513282e78759ef9b.nc:   0%|          | 0.00/861k [00:00<?, ?B/s]abe99d06bf9f84ab513282e78759ef9b.nc: 100%|██████████| 861k/861k [00:03<00:00, 252kB/s]                                                                                      [2026-05-23 12:44:45] completed fdir 2021 in 12.7 min
+[2026-05-23 12:44:45] submitting fdir 2022 -> data/raw/era5_v2/era5_spb_v2_fdir_2022.nc
+2026-05-23 12:44:46,371 INFO [2025-12-11T00:00:00] Please note that a dedicated catalogue entry for this dataset, post-processed and stored in Analysis Ready Cloud Optimized (ARCO) format (Zarr), is available for optimised time-series retrievals (i.e. for retrieving data from selected variables for a single point over an extended period of time in an efficient way). You can discover it [here](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-timeseries?tab=overview)
+[2026-05-23 12:44:46] [2025-12-11T00:00:00] Please note that a dedicated catalogue entry for this dataset, post-processed and stored in Analysis Ready Cloud Optimized (ARCO) format (Zarr), is available for optimised time-series retrievals (i.e. for retrieving data from selected variables for a single point over an extended period of time in an efficient way). You can discover it [here](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-timeseries?tab=overview)
+2026-05-23 12:44:46,372 INFO Request ID is 64e1efe0-301c-4e12-acea-19c8d09ea782
+[2026-05-23 12:44:46] Request ID is 64e1efe0-301c-4e12-acea-19c8d09ea782
+2026-05-23 12:44:47,098 INFO status has been updated to accepted
+[2026-05-23 12:44:47] status has been updated to accepted
+2026-05-23 12:53:16,247 INFO status has been updated to running
+[2026-05-23 12:53:16] status has been updated to running
+2026-05-23 13:03:27,227 INFO status has been updated to successful
+[2026-05-23 13:03:27] status has been updated to successful
+[2026-05-23 13:03:27] Downloading https://object-store.os-api.cci2.ecmwf.int:443/cci2-prod-cache-2/2026-05-23/13147bc15a2d343958edb1f89537a54a.nc
+13147bc15a2d343958edb1f89537a54a.nc:   0%|          | 0.00/860k [00:00<?, ?B/s]13147bc15a2d343958edb1f89537a54a.nc: 100%|██████████| 860k/860k [00:01<00:00, 626kB/s]                                                                                      [2026-05-23 13:03:30] completed fdir 2022 in 18.8 min
+[2026-05-23 13:03:30] submitting fdir 2023 -> data/raw/era5_v2/era5_spb_v2_fdir_2023.nc
+2026-05-23 13:03:31,115 INFO [2025-12-11T00:00:00] Please note that a dedicated catalogue entry for this dataset, post-processed and stored in Analysis Ready Cloud Optimized (ARCO) format (Zarr), is available for optimised time-series retrievals (i.e. for retrieving data from selected variables for a single point over an extended period of time in an efficient way). You can discover it [here](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-timeseries?tab=overview)
+[2026-05-23 13:03:31] [2025-12-11T00:00:00] Please note that a dedicated catalogue entry for this dataset, post-processed and stored in Analysis Ready Cloud Optimized (ARCO) format (Zarr), is available for optimised time-series retrievals (i.e. for retrieving data from selected variables for a single point over an extended period of time in an efficient way). You can discover it [here](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-timeseries?tab=overview)
+2026-05-23 13:03:31,115 INFO Request ID is f8067401-7cd2-4556-a658-26061ef71691
+[2026-05-23 13:03:31] Request ID is f8067401-7cd2-4556-a658-26061ef71691
+2026-05-23 13:03:31,305 INFO status has been updated to accepted
+[2026-05-23 13:03:31] status has been updated to accepted
+2026-05-23 13:14:06,300 INFO status has been updated to running
+[2026-05-23 13:14:06] status has been updated to running
+2026-05-23 13:24:14,410 INFO status has been updated to successful
+[2026-05-23 13:24:14] status has been updated to successful
+[2026-05-23 13:24:14] Downloading https://object-store.os-api.cci2.ecmwf.int:443/cci2-prod-cache-2/2026-05-23/453035e001b7124a14d2b303ea7c6514.nc
+453035e001b7124a14d2b303ea7c6514.nc:   0%|          | 0.00/860k [00:00<?, ?B/s]453035e001b7124a14d2b303ea7c6514.nc: 100%|██████████| 860k/860k [00:01<00:00, 686kB/s]                                                                                      [2026-05-23 13:24:17] completed fdir 2023 in 20.8 min
+[2026-05-23 13:24:17] submitting fdir 2024 -> data/raw/era5_v2/era5_spb_v2_fdir_2024.nc
+2026-05-23 13:24:17,995 INFO [2025-12-11T00:00:00] Please note that a dedicated catalogue entry for this dataset, post-processed and stored in Analysis Ready Cloud Optimized (ARCO) format (Zarr), is available for optimised time-series retrievals (i.e. for retrieving data from selected variables for a single point over an extended period of time in an efficient way). You can discover it [here](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-timeseries?tab=overview)
+[2026-05-23 13:24:17] [2025-12-11T00:00:00] Please note that a dedicated catalogue entry for this dataset, post-processed and stored in Analysis Ready Cloud Optimized (ARCO) format (Zarr), is available for optimised time-series retrievals (i.e. for retrieving data from selected variables for a single point over an extended period of time in an efficient way). You can discover it [here](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-timeseries?tab=overview)
+2026-05-23 13:24:17,996 INFO Request ID is 5b78f0c8-d557-4f9d-b1e5-ae2cc34dfe87
+[2026-05-23 13:24:17] Request ID is 5b78f0c8-d557-4f9d-b1e5-ae2cc34dfe87
+2026-05-23 13:24:18,247 INFO status has been updated to accepted
+[2026-05-23 13:24:18] status has been updated to accepted
+2026-05-23 13:38:56,601 INFO status has been updated to running
+[2026-05-23 13:38:56] status has been updated to running
+2026-05-23 13:51:07,593 INFO status has been updated to successful
+[2026-05-23 13:51:07] status has been updated to successful
+[2026-05-23 13:51:07] Downloading https://object-store.os-api.cci2.ecmwf.int:443/cci2-prod-cache-1/2026-05-23/455d558f519f486bee2c2f9314055585.nc
+455d558f519f486bee2c2f9314055585.nc:   0%|          | 0.00/861k [00:00<?, ?B/s]455d558f519f486bee2c2f9314055585.nc: 100%|██████████| 861k/861k [00:02<00:00, 387kB/s]                                                                                      [2026-05-23 13:51:11] completed fdir 2024 in 26.9 min
+[2026-05-23 13:51:11] done: submitted=10 skipped=0 failed=1 (failed_years=[2016])
+[2026-05-23 14:05:23] cached: data/raw/era5_v2/era5_spb_v2_fdir_2014.nc
+[2026-05-23 14:05:23] cached: data/raw/era5_v2/era5_spb_v2_fdir_2015.nc
+[2026-05-23 14:05:23] submitting fdir 2016 -> data/raw/era5_v2/era5_spb_v2_fdir_2016.nc
+2026-05-23 14:05:23,909 INFO [2025-12-11T00:00:00] Please note that a dedicated catalogue entry for this dataset, post-processed and stored in Analysis Ready Cloud Optimized (ARCO) format (Zarr), is available for optimised time-series retrievals (i.e. for retrieving data from selected variables for a single point over an extended period of time in an efficient way). You can discover it [here](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-timeseries?tab=overview)
+[2026-05-23 14:05:23] [2025-12-11T00:00:00] Please note that a dedicated catalogue entry for this dataset, post-processed and stored in Analysis Ready Cloud Optimized (ARCO) format (Zarr), is available for optimised time-series retrievals (i.e. for retrieving data from selected variables for a single point over an extended period of time in an efficient way). You can discover it [here](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-timeseries?tab=overview)
+2026-05-23 14:05:23,909 INFO Request ID is cae9afbd-23fb-4359-a6e9-6674071bacb8
+[2026-05-23 14:05:23] Request ID is cae9afbd-23fb-4359-a6e9-6674071bacb8
+2026-05-23 14:05:24,336 INFO status has been updated to accepted
+[2026-05-23 14:05:24] status has been updated to accepted
+2026-05-23 14:15:55,679 INFO status has been updated to successful
+[2026-05-23 14:15:55] status has been updated to successful
+[2026-05-23 14:16:00] Downloading https://object-store.os-api.cci2.ecmwf.int:443/cci2-prod-cache-3/2026-05-23/1daa2666743ac6e7a122d134a55b0625.nc
+1daa2666743ac6e7a122d134a55b0625.nc:   0%|          | 0.00/859k [00:00<?, ?B/s]1daa2666743ac6e7a122d134a55b0625.nc: 100%|██████████| 859k/859k [00:02<00:00, 359kB/s]                                                                                      [2026-05-23 14:16:03] completed fdir 2016 in 10.7 min
+[2026-05-23 14:16:03] cached: data/raw/era5_v2/era5_spb_v2_fdir_2017.nc
+[2026-05-23 14:16:03] cached: data/raw/era5_v2/era5_spb_v2_fdir_2018.nc
+[2026-05-23 14:16:03] cached: data/raw/era5_v2/era5_spb_v2_fdir_2019.nc
+[2026-05-23 14:16:03] cached: data/raw/era5_v2/era5_spb_v2_fdir_2020.nc
+[2026-05-23 14:16:03] cached: data/raw/era5_v2/era5_spb_v2_fdir_2021.nc
+[2026-05-23 14:16:03] cached: data/raw/era5_v2/era5_spb_v2_fdir_2022.nc
+[2026-05-23 14:16:03] cached: data/raw/era5_v2/era5_spb_v2_fdir_2023.nc
+[2026-05-23 14:16:03] cached: data/raw/era5_v2/era5_spb_v2_fdir_2024.nc
+[2026-05-23 14:16:03] done: submitted=1 skipped=10 failed=0 (failed_years=[])

@@ -64,6 +64,7 @@ SINGLE_LEVEL_OUTPUT_NAMES = {
     "instantaneous_northward_turbulent_surface_stress": "inss",
     "friction_velocity": "zust",
     "surface_solar_radiation_downwards": "ssrd",
+    "total_sky_direct_solar_radiation_at_surface": "fdir",
     "minimum_2m_temperature_since_previous_post_processing": "mn2t",
     "maximum_2m_temperature_since_previous_post_processing": "mx2t",
 }
@@ -100,6 +101,7 @@ CDS_SHORT_TO_LONG = {
     "inss": "instantaneous_northward_turbulent_surface_stress",
     "zust": "friction_velocity",
     "ssrd": "surface_solar_radiation_downwards",
+    "fdir": "total_sky_direct_solar_radiation_at_surface",
     "mn2t": "minimum_2m_temperature_since_previous_post_processing",
     "mx2t": "maximum_2m_temperature_since_previous_post_processing",
     "u": "u_component_of_wind",
@@ -127,6 +129,7 @@ VARIABLE_METADATA = {
     "inss": {"units": "N m**-2", "long_name": "Instantaneous northward turbulent stress"},
     "zust": {"units": "m s**-1", "long_name": "Friction velocity"},
     "ssrd": {"units": "J m**-2", "long_name": "Surface solar radiation downwards"},
+    "fdir": {"units": "J m**-2", "long_name": "Total sky direct solar radiation at surface"},
     "mn2t": {"units": "K", "long_name": "Minimum 2 m temperature since previous post-processing"},
     "mx2t": {"units": "K", "long_name": "Maximum 2 m temperature since previous post-processing"},
     "u": {"units": "m s**-1", "long_name": "U wind component"},

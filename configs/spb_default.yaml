@@ -83,6 +83,7 @@ era5_v2:
         - "friction_velocity"          # zust, verification-only
         # For Turner-variant Pasquill (group "pasquill_turner")
         - "surface_solar_radiation_downwards"
+        - "total_sky_direct_solar_radiation_at_surface"   # fdir, direct-beam SW
         # Diagnostics (group "diagnostics")
         - "minimum_2m_temperature_since_previous_post_processing"
         - "maximum_2m_temperature_since_previous_post_processing"
@@ -162,33 +163,70 @@ periods:
     start_hour: 23
     end_hour: 7     # wraps midnight: h ≥ 23 OR h < 7
 
-# ──── Stability classification ────────────────────────────────────────────
+# ──── Stability classification (v2) ───────────────────────────────────────
+# Step 2 v2 module: src/stability/runner.py
+# Output:           data/interim/stability_v2.zarr
+# Input:            data/interim/era5_spb_v2.zarr
 stability:
-  primary: "richardson"   # one of: "richardson", "pasquill"
-  cross_check: "pasquill"
+  pipeline_version: v2
+  input_zarr:  "data/interim/era5_spb_v2.zarr"
+  output_zarr: "data/interim/stability_v2.zarr"
 
+  Ri_b:
+    z_lower_m: 2          # temperature reference (uses 10 m wind, small approximation)
+    z_upper_m: 100        # AGL
+    threshold: 0.1
+    # min_shear_sq is the wind-shear-squared floor below which Ri_b is NaN.
+    # The Step 2 v2 spec suggested 0.01 m²/s² (≡ 0.1 m/s shear over 90 m of
+    # height — below the ERA5 wind-field noise floor); applying that value
+    # to the SPb v2 cache produced p1=-22, p99=+23 tails (§9.2 wants ±5).
+    # Raised to 1.0 m²/s² (≡ ~1 m/s shear over the layer) to discard
+    # weak-wind regimes where bulk Ri is mathematically defined but
+    # physically meaningless. Empirically tightens the p1/p99 tails
+    # into the §9.2 ±5 band without distorting the median.
+    # Documented in docs/step2_v2_report.md §4.
+    min_shear_sq: 1.0
+
+  monin_obukhov:
+    threshold_inv_L: 0.05 # m⁻¹
+    min_ustar: 0.05       # m/s
+    kappa: 0.4
+    cp: 1004.7
+    Lv: 2.501e6
+    Rd: 287.05
+
+  pasquill_turner:
+    insolation_W_per_m2:
+      moderate: 350
+      strong: 700
+    nighttime_cloud_threshold: 0.5
+    daytime_fdir_threshold_W_per_m2: 10
+    wind_bins_m_per_s: [2, 3, 5, 6]
+    transitional_resolution: more_unstable
+
+  t100_interpolation:
+    pressure_levels_hPa: [1000, 975, 950]
+    dry_adiabatic_lapse_K_per_m: 0.00977
+
+# Legacy v1 stability config (kept for reference; v1 code is archived under
+# src/stability/_v1_archive and not invoked by the v2 runner).
+stability_v1:
+  primary: "richardson"
+  cross_check: "pasquill"
   richardson:
-    # Bulk Ri = (g/T̄) · ΔT·Δz / (ΔU)²
-    # Lower height: 2 m (use 2t and 10m wind)
-    # Upper height: ~110 m AGL (1000 hPa pressure level wind and temperature)
     upper_pressure_level_hpa: 1000
     gravity_ms2: 9.81
     upper_height_agl_m: 110.0
     lower_temperature_height_agl_m: 2.0
-    # Class boundaries (mapping bulk Ri to A–G classes following Stull 1988):
     classes:
-      - {name: "A", ri_max: -0.86}    # extremely unstable
-      - {name: "B", ri_max: -0.37}    # moderately unstable
-      - {name: "C", ri_max: -0.10}    # slightly unstable
-      - {name: "D", ri_max:  0.10}    # neutral
-      - {name: "E", ri_max:  0.20}    # slightly stable
-      - {name: "F", ri_max:  0.40}    # moderately stable
-      - {name: "G", ri_max:  999.0}   # extremely stable
-
+      - {name: "A", ri_max: -0.86}
+      - {name: "B", ri_max: -0.37}
+      - {name: "C", ri_max: -0.10}
+      - {name: "D", ri_max:  0.10}
+      - {name: "E", ri_max:  0.20}
+      - {name: "F", ri_max:  0.40}
+      - {name: "G", ri_max:  999.0}
   pasquill:
-    # Standard Pasquill-Gifford table from wind speed × insolation × cloud cover.
-    # Uses solar zenith angle for insolation level.
-    # Implementation reference: Stull (1988) Table 9.4.
     solar_zenith_day_threshold_deg: 85.0
     strong_insolation_zenith_max_deg: 60.0
     moderate_insolation_zenith_max_deg: 75.0
@@ -203,10 +241,23 @@ stability:
 #   (a) wind component along sector ≥ wind_threshold_ms, OR
 #   (b) atmospheric stability is in stable_classes.
 favorable:
+  pipeline_version: v2
+  wind_threshold_m_per_s: 2.0
+  n_sectors: 18
+  sector_convention: iso_9613_2_to     # azimuth = direction noise propagates TO
+  thermal_primary: Ri_with_PG_cascade  # Ri_b >= 0.1 with PG cascade on NaN
+  thermal_variants_for_sensitivity:
+    - Ri_strict          # no cascade
+    - L_strict           # inv_L >= 0.05
+    - L_moderate         # inv_L >= 0.01
+    - PG                 # Pasquill E + F + G
+  L_moderate_threshold_inv_m: 0.01
+
+# Legacy v1 favorable config (kept for reference; v1 module is archived under
+# src/favorable/_v1_archive and not invoked by the v2 runner).
+favorable_v1:
   wind_threshold_ms: 2.0   # CNOSSOS practice; sweep [1, 2, 3] for sensitivity
   stable_classes: ["E", "F", "G"]   # slightly to extremely stable
-  # Note: stability flag applies omnidirectionally — when stable, ALL 18 sectors
-  # are flagged favorable for that hour, irrespective of wind.
 
 # ──── Propagation case-study model ────────────────────────────────────────
 propagation:
@@ -226,6 +277,21 @@ soundings:
     start: "2014-01-01"
     end: "2024-12-31"
     sample_strategy: "all"
+
+# ──── Aggregation (Step 4 v2) ────────────────────────────────────────────
+aggregate:
+  pipeline_version: v2
+  seasons: [DJF, MAM, JJA, SON]
+  periods:
+    day:     [7, 19]    # local hour [start, end)
+    evening: [19, 23]
+    night:   [23, 7]    # wraps midnight
+  local_timezone_offset_hours: 3
+  output_format: netcdf4
+  output_compression_level: 4
+  cf_conventions: "CF-1.10"
+  input_zarr:  "data/interim/favorable_v2.zarr"
+  output_nc:   "data/processed/p_favorable_spb.nc"
 
 # ──── Output ──────────────────────────────────────────────────────────────
 output:
