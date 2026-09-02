@@ -1,0 +1,39 @@
+cff-version: 1.2.0
+message: "If you use this software or the derived climatology, please cite it as below."
+type: software
+title: "noise-meteo-spb: climatology of meteorological propagation conditions for traffic noise calculation in Saint Petersburg"
+version: 0.1.0
+license: MIT
+repository-code: "https://github.com/meteoFurletov/noise-meteo-spb"
+authors:
+  - family-names: Furletov
+    given-names: Nikita
+    affiliation: "Russian State Hydrometeorological University (RSHU), Saint Petersburg"
+keywords:
+  - traffic noise
+  - sound propagation
+  - ISO 9613-2
+  - GOST 31295.2
+  - ERA5
+  - reanalysis
+  - atmospheric stability
+  - urban climatology
+  - Saint Petersburg
+references:
+  - type: article
+    title: "The ERA5 global reanalysis"
+    authors:
+      - family-names: Hersbach
+        given-names: Hans
+      - family-names: Bell
+        given-names: Bill
+      - family-names: Berrisford
+        given-names: Paul
+      - name: "et al."
+    journal: "Quarterly Journal of the Royal Meteorological Society"
+    volume: 146
+    issue: 730
+    start: 1999
+    end: 2049
+    year: 2020
+    doi: 10.1002/qj.3803

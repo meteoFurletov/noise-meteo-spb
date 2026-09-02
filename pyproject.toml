@@ -2,11 +2,33 @@
 name = "noise-meteo-spb"
 version = "0.1.0"
 description = "Climatology of meteorological propagation conditions for traffic noise calculation in Saint Petersburg"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
 requires-python = ">=3.11"
 authors = [
-    { name = "TBD" },
+    { name = "Nikita Furletov", email = "meteofurletov@gmail.com" },
 ]
-readme = "README.md"
+keywords = [
+    "traffic-noise",
+    "sound-propagation",
+    "iso-9613-2",
+    "cnossos-eu",
+    "era5",
+    "reanalysis",
+    "atmospheric-stability",
+    "urban-climatology",
+    "saint-petersburg",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Atmospheric Science",
+    "Topic :: Scientific/Engineering :: Physics",
+]
 
 dependencies = [
     # Core scientific stack
@@ -29,12 +51,12 @@ dependencies = [
     # Visualization
     "matplotlib>=3.8",
     "cartopy>=0.22",     # for the SPb-domain maps in step 5
+    "contextily>=1.7.0", # basemap tiles for the case-study maps
     # CLI and config
     "typer>=0.9",
     "pyyaml>=6.0",
     # Logging
     "structlog>=24.1",
-    "contextily>=1.7.0",
     # Thesis document generation
     "python-docx>=1.1",
     "markdown-it-py>=3",
@@ -42,20 +64,28 @@ dependencies = [
     "mathml2omml>=0.0.2",
 ]
 
-[project.optional-dependencies]
-dev = [
-    "pytest>=7.4",
-    "pytest-cov>=4.1",
-    "ruff>=0.3",
-    "ipykernel>=6.28",
-    "jupyterlab>=4.0",
-]
+[project.urls]
+Repository = "https://github.com/meteoFurletov/noise-meteo-spb"
+Issues = "https://github.com/meteoFurletov/noise-meteo-spb/issues"
 
 [project.scripts]
 noise-meteo = "src.run:app"
 
+# `uv sync` installs the `dev` group by default. Jupyter is opt-in:
+#   uv sync --group notebooks
+[dependency-groups]
+dev = [
+    "pytest>=7.4",
+    "pytest-cov>=4.1",
+    "ruff>=0.3",
+]
+notebooks = [
+    "ipykernel>=6.28",
+    "jupyterlab>=4.0",
+]
+
 [build-system]
-requires = ["setuptools>=68", "wheel"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
@@ -65,7 +95,14 @@ include = ["src*"]
 [tool.ruff]
 line-length = 100
 target-version = "py311"
+# Notebooks are exploratory scratch space and are not linted.
+extend-exclude = ["notebooks"]
+
+[tool.ruff.lint]
+# Default rule set (pyflakes + pycodestyle errors). Lambda assignment is used
+# deliberately for small local helpers in the step runners.
+ignore = ["E731"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-v --tb=short"
+addopts = "-ra --tb=short"
