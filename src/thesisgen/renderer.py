@@ -150,7 +150,6 @@ def collect_math_fragments(tokens: list[Token]) -> list[str]:
     for i, t in enumerate(tokens):
         if t.type == "inline" and t.children:
             text = "".join(c.content for c in t.children if c.type == "text")
-            full_text = "".join(c.content for c in t.children if c.type in ("text", "code_inline"))
             # Display math: paragraph that is just $$...$$
             stripped = text.strip()
             if stripped.startswith("$$") and stripped.endswith("$$"):

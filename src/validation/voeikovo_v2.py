@@ -399,7 +399,7 @@ def main() -> int:
     n_pair = int(pairs["paired_valid"].sum())
     print(f"      Paired-valid launches: {n_pair} of {pairs.sizes['time']}")
 
-    print(f"[2/5] Computing confusion / kappa / correlations ...")
+    print("[2/5] Computing confusion / kappa / correlations ...")
     result = analyse(pairs)
     gates = evaluate_gates(result)
 

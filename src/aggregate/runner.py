@@ -24,7 +24,6 @@ import xarray as xr
 import yaml
 
 from src.aggregate.aggregator import (
-    PROBABILITY_VARS_SECTOR,
     PROBABILITY_VARS_THERMAL,
     aggregate_to_climatology,
 )

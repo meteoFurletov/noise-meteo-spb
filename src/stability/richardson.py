@@ -14,7 +14,6 @@ fields so the runner can write them directly. It does no I/O.
 
 from __future__ import annotations
 
-import numpy as np
 import xarray as xr
 
 from src.stability.thermodynamics import (

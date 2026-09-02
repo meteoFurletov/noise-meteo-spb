@@ -946,12 +946,6 @@ def fig_seasonal_diurnal_bars(
         )
         ax.legend(loc="upper right", frameon=True, framealpha=0.9)
 
-        djf_idx = SEASON_ORDER.index("DJF")
-        jja_idx = SEASON_ORDER.index("JJA")
-        night_off = (PERIOD_ORDER.index("night") - (n_periods - 1) / 2) * bar_w
-        day_off = (PERIOD_ORDER.index("day") - (n_periods - 1) / 2) * bar_w
-        x_djf_night = djf_idx + night_off
-        x_jja_day = jja_idx + day_off
         # Callout in upper-left empty area with a diagonal arrow pointing from the
         # JJA-day bar (the smaller one) up to the DJF-night bar (the larger one).
         text_x, text_y = 0.10, 0.98

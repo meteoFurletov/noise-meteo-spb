@@ -27,7 +27,6 @@ import yaml
 from docx import Document as new_document
 from docx.document import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
-from docx.shared import Pt
 
 from src.thesisgen import bibliography as bib
 from src.thesisgen import citations as cite
@@ -63,7 +62,6 @@ class _ChapterBundle:
 def build_thesis(root: Path) -> BuildReport:
     root = Path(root)
     manifest = yaml.safe_load((root / "manifest.yaml").read_text(encoding="utf-8"))
-    meta = yaml.safe_load((root / "meta.yaml").read_text(encoding="utf-8"))
     sources_path = root / manifest.get("bibliography", {}).get("source", "sources.yaml")
     sources = yaml.safe_load(sources_path.read_text(encoding="utf-8")) or {}
     figures_path = root / manifest.get("figures", {}).get("registry", "figures.yaml")

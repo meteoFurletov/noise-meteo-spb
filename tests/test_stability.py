@@ -101,14 +101,14 @@ def test_thermodynamics_t100_three_cases() -> None:
     z_A = xr.DataArray([[50.0, 250.0, 450.0]], dims=("time", "level"),
                        coords={"level": [1000, 975, 950]})
     T_A, qc_A = thermodynamics.interpolate_t100(t2m, t_press, z_A)
-    assert qc_A.values[0] == False  # principled interp
+    assert not bool(qc_A.values[0])  # principled interp
     assert abs(float(T_A.values[0]) - 286.5) < 0.01
 
     # Case B: lowest pressure level already above 100 m AGL.
     z_B = xr.DataArray([[200.0, 400.0, 600.0]], dims=("time", "level"),
                        coords={"level": [1000, 975, 950]})
     T_B, qc_B = thermodynamics.interpolate_t100(t2m, t_press, z_B)
-    assert qc_B.values[0] == False  # case B is principled too
+    assert not bool(qc_B.values[0])  # case B is principled too
     # alpha = (100-2)/(200-2) = 0.4949; T = 288 + 0.4949*(287-288) = 287.51
     assert abs(float(T_B.values[0]) - 287.51) < 0.02
 
@@ -116,7 +116,7 @@ def test_thermodynamics_t100_three_cases() -> None:
     z_C = xr.DataArray([[10.0, 30.0, 50.0]], dims=("time", "level"),
                        coords={"level": [1000, 975, 950]})
     T_C, qc_C = thermodynamics.interpolate_t100(t2m, t_press, z_C)
-    assert qc_C.values[0] == True
+    assert bool(qc_C.values[0])
     # T = 288 - 0.00977 * 98 = 287.043
     assert abs(float(T_C.values[0]) - 287.04) < 0.01
 
